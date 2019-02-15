@@ -173,6 +173,7 @@ public class TbUserServiceImpl implements TbUserService {
         Map<String, Object> map = new HashMap<>();
         map.put("start", start);
         map.put("length", length);
+        //封装分页参数
         map.put("pageParams", tbUser);
 
         PageInfo<TbUser> pageInfo = new PageInfo<>();
