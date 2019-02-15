@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>My Shop | 登录</title>
+    <title>燚影无人打印后台管理系统 | 登录</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -26,11 +26,11 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="#">我的商城</a>
+        <a href="#">燚影无人打印</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">登录商城</p>
+        <p class="login-box-msg">登 录</p>
         <form action="/login" method="post">
             <div class="alert alert-danger alert-dismissible" ${message == null ? "style = 'display : none;'" : ""} >
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
