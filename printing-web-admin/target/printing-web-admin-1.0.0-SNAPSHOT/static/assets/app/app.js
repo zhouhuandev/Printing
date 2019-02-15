@@ -293,7 +293,7 @@ var App = function () {
             var contentHtml = editor.txt.html();
             $(hideId).val(contentHtml);
         })
-    }
+    };
 
     /**
      * 查看详情
@@ -330,6 +330,32 @@ var App = function () {
             maxFileSize: 0, //单位为kb，如果为0表示不限制文件大小
             maxFileCount: 10, //表示允许同时上传的最大文件个数
             dropZoneEnabled: false //是否显示拖拽区域
+        });
+    };
+
+    /**
+     * numInput 计数器初始化
+     */
+    var handlerInitNumberInput = function () {
+        $(".numberInput").numInput({
+            width: 100, //宽度
+            height: 25, // 高度
+            positive: true, //允许输入正数
+            negative: false, //允许输入负数
+            //faq：positive，negative不能同时false，同时false按同时为true处理
+        });
+    }
+
+    /**
+     * DateTimePicker 时间初始化
+     */
+    var handlerInitDateTimePicker = function () {
+        $('.form_datetime').datetimepicker({
+            language: 'zh-CN', //中国大陆时间
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1
         });
     }
 
@@ -404,6 +430,18 @@ var App = function () {
          */
         initFileInput: function (id, uploadUrl, deleteUrl) {
             handlerInitFileInput(id, uploadUrl, deleteUrl);
+        },
+        /**
+         * numberInput 计数器初始化
+         */
+        initNumberInput:function () {
+            handlerInitNumberInput();
+        },
+        /**
+         * DateTimePicker 时间初始化
+         */
+        initDateTimePicker:function () {
+            handlerInitDateTimePicker();
         }
     }
 

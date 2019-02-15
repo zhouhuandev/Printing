@@ -116,7 +116,7 @@
             <if test="pageParams.phone != null and pageParams.phone != ''">
                 AND a.phone LIKE CONCAT ('%',#{pageParams.phone},'%')
             </if>
-            a.isdelete = 'false'
+            AND a.isdelete = 'false'
         </where>
         LIMIT #{start},#{length}
     </select>
@@ -136,6 +136,7 @@
             <if test="phone != null and phone != ''">
                 AND a.phone LIKE CONCAT ('%',#{phone},'%')
             </if>
+            AND
             a.isdelete = 'false'
         </where>
     </select>
