@@ -9,10 +9,8 @@
     <!-- bootstrap-fileinput CSS -->
     <link href="/static/assets/plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet"
           type="text/css"/>
-    <%--<link rel="stylesheet" href="/static/assets/plugins/bootstrap-fileinput/css/all.css">--%>
-    <%--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">--%>
-    <%--<link href="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.css" media="all" rel="stylesheet"--%>
-    <%--type="text/css"/>--%>
+    <link href="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.css" media="all" rel="stylesheet"
+          type="text/css"/>
     <!-- bootstrap-fileinput CSS End -->
 
 </head>
@@ -80,6 +78,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="store"
+                                               class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
+                                               style="font-size: 18px;">选择门店：</label>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                            <input type="text" class="form-control" id="store" placeholder="" readonly/>
+                                        </div>
+                                        <a class="btn btn-default col-lg-1 col-xs-2 text-center"
+                                           onclick="store()">>>></a>
+                                    </div>
+
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -106,18 +115,8 @@
 <script src="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.js"></script>
 <script src="/static/assets/plugins/bootstrap-fileinput/js/locales/zh.js"></script>
 <script>
-    <!--upfile input初始化 -->
-    $("#uploadfile").fileinput({
-        theme: 'explorer-fas', //更改文件载上传框中的样式
-        language: 'zh', //更改语言,需要引入语言包zh.js
-        uploadUrl: '#', //上传文件路径
-        deleteUrl: '#', //删除文件的时候请求路径
-        uploadAsync: false, //是否异步上传
-        allowedFileExtensions: ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'txt'], //接收的文件后缀，如['jpg', 'gif', 'png','docx', 'doc', 'xlsx','xls','pptx','ppt','txt'],不填将不限制上传文件后缀类型
-        maxFileSize: 0, //单位为kb，如果为0表示不限制文件大小
-        maxFileCount: 10, //表示允许同时上传的最大文件个数
-        dropZoneEnabled: false //是否显示拖拽区域
-    });
+    <!-- bootstrap-fileinput 初始化 -->
+    App.initFileInput('#uploadfile', '#', '#');
 </script>
 </body>
 </html>

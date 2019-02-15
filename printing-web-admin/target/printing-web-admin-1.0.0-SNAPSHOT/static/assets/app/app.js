@@ -313,6 +313,26 @@ var App = function () {
         });
     }
 
+    /**
+     * 初始化 bootstrap-fileinput
+     * @param id 初始化的 <input> 标签 id
+     * @param uploadUrl 上传的路径
+     * @param deleteUrl 删除的路径
+     */
+    var handlerInitFileInput = function (id,uploadUrl,deleteUrl) {
+        $(id).fileinput({
+            theme: 'explorer-fas', //更改文件载上传框中的样式
+            language: 'zh', //更改语言,需要引入语言包zh.js
+            uploadUrl: uploadUrl, //上传文件路径
+            deleteUrl: deleteUrl, //删除文件的时候请求路径
+            uploadAsync: true, //是否异步上传
+            allowedFileExtensions: ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'txt'], //接收的文件后缀，如['jpg', 'gif', 'png','docx', 'doc', 'xlsx','xls','pptx','ppt','txt'],不填将不限制上传文件后缀类型
+            maxFileSize: 0, //单位为kb，如果为0表示不限制文件大小
+            maxFileCount: 10, //表示允许同时上传的最大文件个数
+            dropZoneEnabled: false //是否显示拖拽区域
+        });
+    }
+
     //开放方法接口
     return {
         /**
@@ -375,6 +395,15 @@ var App = function () {
          */
         initShowDetail: function (url) {
             handlerInitShowDetail(url);
+        },
+        /**
+         * 初始化 bootstrap-fileinput
+         * @param id
+         * @param uploadUrl
+         * @param deleteUrl
+         */
+        initFileInput:function (id,uploadUrl,deleteUrl) {
+            handlerInitFileInput(id,uploadUrl,deleteUrl);
         }
     }
 
