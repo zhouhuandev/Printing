@@ -9,9 +9,10 @@
     <!-- bootstrap-fileinput CSS -->
     <link href="/static/assets/plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet"
           type="text/css"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
-    <link href="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.css" media="all" rel="stylesheet"
-          type="text/css"/>
+    <%--<link rel="stylesheet" href="/static/assets/plugins/bootstrap-fileinput/css/all.css">--%>
+    <%--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">--%>
+    <%--<link href="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.css" media="all" rel="stylesheet"--%>
+    <%--type="text/css"/>--%>
     <!-- bootstrap-fileinput CSS End -->
 
 </head>
@@ -75,7 +76,7 @@
                                                style="font-size: 18px;">上传文件：</label>
                                         <div class="col-lg-4 col-md-8 col-sm-8 col-xs-8">
                                             <div class="file-loading">
-                                                <input id="uploadfile" type="file" multiple data-show-caption="true">
+                                                <input id="uploadfile" type="file" multiple>
                                             </div>
                                         </div>
                                     </div>
@@ -100,10 +101,10 @@
 </div>
 <jsp:include page="../../includes/footer.jsp"/>
 <!-- bootstrap-fileinput JS -->
-<script src="/static/assets/plugins/bootstrap-fileinput/js/plugins/sortable.js"></script>
+<%--<script src="/static/assets/plugins/bootstrap-fileinput/js/plugins/sortable.js"></script>--%>
 <script src="/static/assets/plugins/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.js"></script>
-
+<script src="/static/assets/plugins/bootstrap-fileinput/js/locales/zh.js"></script>
 <script>
     <!--upfile input初始化 -->
     $("#uploadfile").fileinput({
@@ -115,7 +116,7 @@
         allowedFileExtensions: ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'txt'], //接收的文件后缀，如['jpg', 'gif', 'png','docx', 'doc', 'xlsx','xls','pptx','ppt','txt'],不填将不限制上传文件后缀类型
         maxFileSize: 0, //单位为kb，如果为0表示不限制文件大小
         maxFileCount: 10, //表示允许同时上传的最大文件个数
-
+        dropZoneEnabled: false //是否显示拖拽区域
     });
 </script>
 </body>
