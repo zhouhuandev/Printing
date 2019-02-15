@@ -7,8 +7,10 @@
         a.password,
         a.phone,
         a.email,
+        a.imgurl,
         a.created,
-        a.updated
+        a.updated,
+        a.isdelete
     </sql>
 
     <select id="selectAll" resultType="TbUser">
@@ -16,6 +18,7 @@
         <include refid="tbUserColumns"/>
         FROM
         tb_user AS a
+        WHERE a.isdelete = 'false'
     </select>
 
     <select id="getById" resultType="TbUser" parameterType="long">
@@ -24,7 +27,7 @@
         FROM
         tb_user as a
         WHERE
-        a.id = #{id}
+        a.id = #{id} AND a.isdelete = 'false'
     </select>
 
     <insert id="insert">
@@ -33,6 +36,7 @@
       password,
       phone,
       email,
+      imgurl,
       created,
       updated
     )
@@ -42,6 +46,7 @@
         #{password},
         #{phone},
         #{email},
+        #{imgurl},
         #{created},
         #{updated}
       )
@@ -51,10 +56,18 @@
         UPDATE
             tb_user
         SET
-            username= #{username},
-            password = #{password},
-            phone = #{phone},
-            email = #{email},
+            <if test="username != null and username != ''">
+                username= #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+           <if test="email != null and phone != ''">
+               email = #{email},
+           </if>
             updated = #{updated}
         WHERE
             id = #{id}
@@ -65,21 +78,25 @@
         FROM
         tb_user AS a
         WHERE
-        a.email = #{email}
+        a.email = #{email} AND a.isdelete = 'false'
     </select>
 
-    <delete id="delete">
-        DELETE FROM tb_user WHERE id = #{id}
-    </delete>
+    <update id="delete">
+        UPDATE tb_user
+        SET
+        isdelete=true
+        WHERE id = #{id}
+    </update>
 
-    <delete id="deleteMulti">
-        DELETE FROM
-        tb_user
+    <update id="deleteMulti">
+        UPDATE tb_user
+        SET
+        isdelete=true
         WHERE id IN
         <foreach collection="array" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>
-    </delete>
+    </update>
 
     <select id="page" resultType="TbUser" parameterType="java.util.Map">
         SELECT
@@ -96,6 +113,7 @@
             <if test="pageParams.phone != null and pageParams.phone != ''">
                 AND a.phone LIKE CONCAT ('%',#{pageParams.phone},'%')
             </if>
+            a.isdelete = 'false'
         </where>
         LIMIT #{start},#{length}
     </select>
@@ -115,6 +133,7 @@
             <if test="phone != null and phone != ''">
                 AND a.phone LIKE CONCAT ('%',#{phone},'%')
             </if>
+            a.isdelete = 'false'
         </where>
     </select>
 </mapper>
