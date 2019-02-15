@@ -81,7 +81,8 @@ public class LoginController {
                 //用户信息存储一周
                 CookieUtils.setCookie(request, response, ConstantUtils.COOKIE_NAME_USER_INFO, String.format("%s:%s", email, password), 7 * 24 * 60 * 60);
             }
-            emailSendUtils.send("用户登录", String.format("尊敬的用户 【%s】于 %s 登录 燚影无人打印店后台管理系统", tbUser.getUsername(), new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date())), tbUser.getEmail());
+            //这个地方仍然有 bug 暂未解决
+            //emailSendUtils.send("用户登录", String.format("尊敬的用户 【%s】于 %s 登录 燚影无人打印店后台管理系统", tbUser.getUsername(), new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date())), tbUser.getEmail());
             //将登录信息放入会话
             request.getSession().setAttribute(ConstantUtils.SESSION_USER, tbUser);
             //重定向
