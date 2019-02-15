@@ -3,9 +3,11 @@ package com.yiying.printing.web.admin.web.controller;
 
 import com.yiying.printing.commons.constant.ConstantUtils;
 import com.yiying.printing.commons.utils.CookieUtils;
+import com.yiying.printing.commons.utils.EmailSendUtils;
 import com.yiying.printing.domain.TbUser;
 import com.yiying.printing.web.admin.service.TbUserService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 登录控制器
@@ -29,6 +33,8 @@ public class LoginController {
 
     @Autowired
     private TbUserService tbUserService;
+    @Autowired
+    private EmailSendUtils emailSendUtils;
 
     /**
      * 跳转登录页面
@@ -51,7 +57,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@RequestParam(required = true) String email, @RequestParam(required = true) String password, HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String login(@RequestParam(required = true) String email, @RequestParam(required = true) String password, HttpServletRequest request, HttpServletResponse response, Model model) throws EmailException {
 
         boolean isRemember = request.getParameter("isRemember") == null ? false : true;
 
@@ -75,6 +81,7 @@ public class LoginController {
                 //用户信息存储一周
                 CookieUtils.setCookie(request, response, ConstantUtils.COOKIE_NAME_USER_INFO, String.format("%s:%s", email, password), 7 * 24 * 60 * 60);
             }
+            emailSendUtils.send("用户登录", String.format("尊敬的用户 【%s】于 %s 登录 燚影无人打印店后台管理系统", tbUser.getUsername(), new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date())), tbUser.getEmail());
             //将登录信息放入会话
             request.getSession().setAttribute(ConstantUtils.SESSION_USER, tbUser);
             //重定向
