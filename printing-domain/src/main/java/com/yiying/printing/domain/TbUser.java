@@ -26,4 +26,8 @@ public class TbUser extends BaseEntity {
     private String phone;
     @Pattern(regexp = RegexpUtils.EMAIL, message = "邮箱格式不正确")
     private String email;
+
+    private String imgurl;
+
+    private Boolean isdelete;
 }
