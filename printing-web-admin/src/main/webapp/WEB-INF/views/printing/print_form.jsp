@@ -110,10 +110,14 @@
 </div>
 <jsp:include page="../../includes/footer.jsp"/>
 <!-- bootstrap-fileinput JS -->
-<%--<script src="/static/assets/plugins/bootstrap-fileinput/js/plugins/sortable.js"></script>--%>
 <script src="/static/assets/plugins/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.js"></script>
 <script src="/static/assets/plugins/bootstrap-fileinput/js/locales/zh.js"></script>
+<!-- easyui JS -->
+<script src="/static/assets/plugins/easyui/jquery.easyui.min.js"></script>
+<script src="/static/assets/plugins/easyui/openWindow.js"></script>
+
+<script src="print_form.js"></script>
 <script>
     <!-- bootstrap-fileinput 初始化 -->
     App.initFileInput('#uploadfile', '#', '#');

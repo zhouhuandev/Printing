@@ -319,7 +319,7 @@ var App = function () {
      * @param uploadUrl 上传的路径
      * @param deleteUrl 删除的路径
      */
-    var handlerInitFileInput = function (id,uploadUrl,deleteUrl) {
+    var handlerInitFileInput = function (id, uploadUrl, deleteUrl) {
         $(id).fileinput({
             theme: 'explorer-fas', //更改文件载上传框中的样式
             language: 'zh', //更改语言,需要引入语言包zh.js
@@ -402,8 +402,8 @@ var App = function () {
          * @param uploadUrl
          * @param deleteUrl
          */
-        initFileInput:function (id,uploadUrl,deleteUrl) {
-            handlerInitFileInput(id,uploadUrl,deleteUrl);
+        initFileInput: function (id, uploadUrl, deleteUrl) {
+            handlerInitFileInput(id, uploadUrl, deleteUrl);
         }
     }
 
