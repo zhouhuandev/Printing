@@ -33,14 +33,13 @@
             </li>
             <li class="treeview active">
                 <a href="#">
-                    <i class="fa fa-book"></i> <span>分类管理</span>
+                    <i class="fa fa-book"></i> <span>打印管理</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/content/category/list"><i class="fa fa-circle-o"></i> 内容分类</a></li>
-                    <li><a href="/content/list"><i class="fa fa-circle-o"></i> 内容列表</a></li>
+                    <li><a href="/printing/form"><i class="fa fa-circle-o"></i> 打印表单</a></li>
                 </ul>
             </li>
         </ul>

@@ -1,0 +1,27 @@
+package com.yiying.printing.web.admin.web.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ * 打印控制器
+ *
+ * @Description: //TODO
+ * @Author hz_zhouhuan
+ * @Version 1.0.0
+ * @Date 2019/1/26 23:11
+ */
+@Controller
+@RequestMapping(value = "printing")
+public class PrintingController {
+    /**
+     * 跳转打印表单页
+     *
+     * @return
+     */
+    @RequestMapping(value = "form", method = RequestMethod.GET)
+    public String main() {
+        return "printing/print_form";
+    }
+}
