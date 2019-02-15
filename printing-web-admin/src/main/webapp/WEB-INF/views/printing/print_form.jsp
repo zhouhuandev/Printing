@@ -117,7 +117,7 @@
 <script src="/static/assets/plugins/easyui/jquery.easyui.min.js"></script>
 <script src="/static/assets/plugins/easyui/openWindow.js"></script>
 
-<script src="print_form.js"></script>
+<script src="/static/assets/app/printing/js/print_form.js"></script>
 <script>
     <!-- bootstrap-fileinput 初始化 -->
     App.initFileInput('#uploadfile', '#', '#');
