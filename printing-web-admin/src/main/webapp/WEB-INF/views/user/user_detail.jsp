@@ -23,6 +23,16 @@
             <td>${tbUser.phone}</td>
         </tr>
         <tr>
+            <td>头像：</td>
+            <%--<td>${tbUser.imgurl == null ? '' : '<img src="'+tbUser.imgurl+'">'}</td>--%>
+            <td>
+                <div class="image">
+                    <img src="${tbUser.imgurl == null ? '' : tbUser.imgurl}"
+                         class="img-circle" alt="User Image" style="width: 80px;">
+                </div>
+            </td>
+        </tr>
+        <tr>
             <td>创建时间：</td>
             <td><fmt:formatDate value="${tbUser.created}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
         </tr>

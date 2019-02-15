@@ -7,6 +7,9 @@
 <head>
     <title>燚影无人打印后台管理系统 | 用户管理</title>
     <jsp:include page="../../includes/header.jsp"/>
+    <!-- DropZone CSS -->
+    <link rel="stylesheet" href="/static/assets/plugins/dropzone/dropzone.css"/>
+    <link rel="stylesheet" href="/static/assets/plugins/dropzone/min/basic.min.css"/>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -45,34 +48,49 @@
                         <form:form id="inputForm" cssClass="form-horizontal" action="/user/save" method="post"
                                    modelAttribute="tbUser">
                             <div class="box-body">
-                                <form:hidden path="id"/>
-                                <div class="form-group">
-                                    <label for="email" class="col-sm-2 control-label">邮箱</label>
-                                    <div class="col-sm-10">
-                                        <form:input path="email" cssClass="form-control required email"
-                                                    placeholder="请输入邮箱地址"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="col-sm-2 control-label">密码</label>
-                                    <div class="col-sm-10">
-                                        <form:password path="password" cssClass="form-control required"
-                                                       placeholder="请输入密码"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="username" class="col-sm-2 control-label">姓名</label>
+                                <div class="row">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <form:hidden path="id"/>
+                                        <div class="form-group">
+                                            <label for="email" class="col-sm-2 control-label">邮箱</label>
+                                            <div class="col-sm-10">
+                                                <form:input path="email" cssClass="form-control required email"
+                                                            placeholder="请输入邮箱地址"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" class="col-sm-2 control-label">密码</label>
+                                            <div class="col-sm-10">
+                                                <form:password path="password" cssClass="form-control required"
+                                                               placeholder="请输入密码"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="username" class="col-sm-2 control-label">姓名</label>
 
-                                    <div class="col-sm-10">
-                                        <form:input path="username" cssClass="form-control required"
-                                                    placeholder="请输入姓名"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone" class="col-sm-2 control-label">手机</label>
-                                    <div class="col-sm-10">
-                                        <form:input path="phone" cssClass="form-control required mobile"
-                                                    placeholder="请输入手机号"/>
+                                            <div class="col-sm-10">
+                                                <form:input path="username" cssClass="form-control required"
+                                                            placeholder="请输入姓名"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone" class="col-sm-2 control-label">手机</label>
+                                            <div class="col-sm-10">
+                                                <form:input path="phone" cssClass="form-control required mobile"
+                                                            placeholder="请输入手机号"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="imgurl" class="col-sm-2 control-label">头像</label>
+                                            <div class="col-sm-10">
+                                                <form:input path="imgurl" cssClass="form-control"
+                                                            placeholder="头像" readonly="true"/>
+                                                <div id="dropz" class="dropzone">
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -94,5 +112,43 @@
     <jsp:include page="../../includes/copyright.jsp"/>
 </div>
 <jsp:include page="../../includes/footer.jsp"/>
+<!-- DropZone JS -->
+<script src="/static/assets/plugins/dropzone/min/dropzone.min.js"></script>
+<script>
+    App.initDropzone({
+        id: "#dropz",
+        url: "/upload/uploadImg",
+        init: function () {
+            this.on("success", function (file, data) {
+                // 上传成功触发的事件
+                $("#imgurl").val(data.fileName);
+            });
+            this.on("removedfile", function (file) {
+                // 删除文件时触发的方法
+                remove("#imgurl");
+            });
+        }
+    });
+
+    /**
+     * 移除函数
+     * @param id 文本框的id
+     */
+    function remove(id) {
+        var fileName = $(id).val();
+        $.ajax({
+            type: "POST",
+            url: "/upload/remove",
+            data: {
+                fileName: fileName
+            },
+            success: function (data) {
+                var msg = data.msg;
+                alert(msg);
+                $(id).val("");
+            }
+        });
+    }
+</script>
 </body>
 </html>

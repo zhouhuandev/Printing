@@ -65,8 +65,11 @@
         <if test="phone != null and phone != ''">
             phone = #{phone},
         </if>
-        <if test="email != null and phone != ''">
+        <if test="email != null and email != ''">
             email = #{email},
+        </if>
+        <if test="imgurl != null and imgurl != ''">
+            imgurl = #{imgurl},
         </if>
             updated = #{updated}
         WHERE

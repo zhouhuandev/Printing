@@ -57,6 +57,9 @@ public class TbUserServiceImpl implements TbUserService {
             }
             //编辑用户
             else {
+                //密码需要加密
+                tbUser.setPassword(DigestUtils.md5DigestAsHex(tbUser.getPassword().getBytes()));
+                tbUser.setCreated(new Date());
                 update(tbUser);
             }
 

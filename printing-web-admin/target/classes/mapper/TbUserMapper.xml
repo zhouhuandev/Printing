@@ -56,18 +56,21 @@
         UPDATE
             tb_user
         SET
-            <if test="username != null and username != ''">
-                username= #{username},
-            </if>
-            <if test="password != null and password != ''">
-                password = #{password},
-            </if>
-            <if test="phone != null and phone != ''">
-                phone = #{phone},
-            </if>
-           <if test="email != null and phone != ''">
-               email = #{email},
-           </if>
+        <if test="username != null and username != ''">
+            username= #{username},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{phone},
+        </if>
+        <if test="email != null and email != ''">
+            email = #{email},
+        </if>
+        <if test="imgurl != null and imgurl != ''">
+            imgurl = #{imgurl},
+        </if>
             updated = #{updated}
         WHERE
             id = #{id}
