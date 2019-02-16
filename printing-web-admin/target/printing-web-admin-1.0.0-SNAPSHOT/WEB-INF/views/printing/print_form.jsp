@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="/static/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" />
     <!-- datetimepicker CSS -->
     <link rel="stylesheet" href="/static/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <!-- easyui CSS -->
+    <link rel="stylesheet" href="/static/assets/plugins/easyui/easyui/themes/default/easyui.css" />
+    <link rel="stylesheet" href="/static/assets/plugins/easyui/easyui/themes/icon.css" />
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -50,7 +53,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" action="#">
                             <div class="box-body">
                                 <div class="row">
 
@@ -87,7 +90,7 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                                             <input type="text" class="form-control" id="store" placeholder="" readonly/>
                                         </div>
-                                        <a class="btn btn-default col-lg-1 col-xs-2 text-center">>>></a>
+                                        <a href="#" class="btn btn-default col-lg-1 col-xs-2 text-center" onclick="store()">>>></a>
                                     </div>
                                     <div class="form-group">
                                         <label for="istwo-face" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
@@ -118,7 +121,7 @@
                                     </div>
                                     <div class="form-group pick-time">
                                         <label for="time" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right" style="font-size: 18px;">取货时间：</label>
-                                        <div class="input-group date form_datetime col-lg-3 col-xs-8" data-date-format="yyyy/mm/dd HH:ii:ss"
+                                        <div class="input-group date form_datetime col-lg-3 col-xs-8" data-date-format="yyyy/mm/dd hh:ii:ss"
                                              data-link-field="time" style="padding-left: 15px;padding-top: 4px;">
                                             <input class="form-control" size="16" type="text" value="" readonly>
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -126,16 +129,16 @@
                                         </div>
                                         <input type="hidden" id="time" name="time" value="" /><br />
                                     </div>
-                                    <div class="col-lg-1 col-xs-1 col-lg-offset-5 col-xs-offset-4">
-                                        <!-- <button type="button" class="btn btn-primary">提交订单</button> -->
-                                        <a class="btn btn-primary" href="deal.html">提交订单</a>
-                                    </div>
+
                                 </div>
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer">
-                                <button type="button" class="btn btn-default" onclick="history.go(-1);">返回</button>
-                                <button type="submit" class="btn btn-info pull-right">提交</button>
+                                <div class="col-lg-2 col-xs-2 col-lg-offset-5 col-xs-offset-4">
+                                    <button type="button" class="btn btn-default" onclick="history.go(-1);">返回</button>
+                                    <button type="button" class="btn btn-primary pull-right">提交订单</button>
+                                </div>
+
                             </div>
                             <!-- /.box-footer -->
                         </form>
@@ -161,6 +164,9 @@
 <!-- datetimepicker JS -->
 <script src="/static/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/static/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<script src="/static/assets/plugins/easyui/jquery.easyui.min.js"></script>
+<script src="/static/assets/plugins/easyui/openWindow.js"></script>
 <script>
    // bootstrap-fileinput 初始化
     App.initFileInput('#uploadfile', '#', '#');
@@ -196,6 +202,26 @@
            alert("当前数值不能小于或者等于0!");
            $("#num-input").val("1");
        }
+   };
+
+   var dialog;
+   function store(){
+       dialog = modalDialog({
+           title:'选择门店',
+           width:800,
+           heigh:300,
+           url:'/printing/store',
+           buttons:[{
+               text:'Close',
+               iconCls:'icon-cancel',
+               handler:function(){
+                   dialog.dialog('destroy');//关闭对话框
+               }
+           }],
+           onDestroy:function(){
+
+           }
+       });
    }
 </script>
 </body>

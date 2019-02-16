@@ -67,5 +67,8 @@
     </div>
 </div>
 <jsp:include page="../../includes/footer.jsp"/>
+
+<script src="/static/assets/plugins/easyui/jquery.easyui.min.js"></script>
+<script src="/static/assets/plugins/easyui/openWindow.js"></script>
 </body>
 </html>
