@@ -39,6 +39,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li><a href="/printing/list"><i class="fa fa-circle-o"></i> 打印记录</a></li>
                     <li><a href="/printing/form"><i class="fa fa-circle-o"></i> 打印表单</a></li>
                 </ul>
             </li>

@@ -15,13 +15,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "printing")
 public class PrintingController {
+
+    /**
+     * 跳转打印记录管理
+     *
+     * @return
+     */
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    public String list() {
+        return "printing/print_list";
+    }
     /**
      * 跳转打印表单页
      *
      * @return
      */
     @RequestMapping(value = "form", method = RequestMethod.GET)
-    public String main() {
+    public String form() {
         return "printing/print_form";
     }
 

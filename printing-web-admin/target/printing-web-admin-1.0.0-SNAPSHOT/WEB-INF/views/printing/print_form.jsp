@@ -16,8 +16,8 @@
     <!-- datetimepicker CSS -->
     <link rel="stylesheet" href="/static/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <!-- easyui CSS -->
-    <link rel="stylesheet" href="/static/assets/plugins/easyui/easyui/themes/default/easyui.css" />
-    <link rel="stylesheet" href="/static/assets/plugins/easyui/easyui/themes/icon.css" />
+    <link rel="stylesheet" href="/static/assets/plugins/easyui/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" href="/static/assets/plugins/easyui/easyui/themes/icon.css"/>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -90,7 +90,8 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                                             <input type="text" class="form-control" id="store" placeholder="" readonly/>
                                         </div>
-                                        <a href="#" class="btn btn-default col-lg-1 col-xs-2 text-center" onclick="store()">>>></a>
+                                        <a href="#" class="btn btn-default col-lg-1 col-xs-2 text-center"
+                                           onclick="store()">>>></a>
                                     </div>
                                     <div class="form-group">
                                         <label for="istwo-face" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
@@ -121,7 +122,8 @@
                                     </div>
                                     <div class="form-group pick-time">
                                         <label for="time" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right" style="font-size: 18px;">取货时间：</label>
-                                        <div class="input-group date form_datetime col-lg-3 col-xs-8" data-date-format="yyyy/mm/dd hh:ii:ss"
+                                        <div class="input-group date form_datetime col-lg-3 col-xs-8"
+                                             data-date-format="yyyy/mm/dd hh:ii:ss"
                                              data-link-field="time" style="padding-left: 15px;padding-top: 4px;">
                                             <input class="form-control" size="16" type="text" value="" readonly>
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -205,20 +207,21 @@
    };
 
    var dialog;
-   function store(){
+
+   function store() {
        dialog = modalDialog({
-           title:'选择门店',
-           width:800,
-           heigh:300,
-           url:'/printing/store',
-           buttons:[{
-               text:'Close',
-               iconCls:'icon-cancel',
-               handler:function(){
+           title: '选择门店',
+           width: 800,
+           heigh: 300,
+           url: '/printing/store',
+           buttons: [{
+               text: 'Close',
+               iconCls: 'icon-cancel',
+               handler: function () {
                    dialog.dialog('destroy');//关闭对话框
                }
            }],
-           onDestroy:function(){
+           onDestroy: function () {
 
            }
        });
