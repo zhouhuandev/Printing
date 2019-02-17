@@ -117,7 +117,7 @@
 <script>
     App.initDropzone({
         id: "#dropz",
-        url: "/upload/uploadImg",
+        url: "/upload/upload",
         init: function () {
             this.on("success", function (file, data) {
                 // 上传成功触发的事件
