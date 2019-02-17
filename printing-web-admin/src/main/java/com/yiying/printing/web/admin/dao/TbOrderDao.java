@@ -49,7 +49,7 @@ public interface TbOrderDao {
     void delete(Long id);
 
     /**
-     * 通过id获取用户信息
+     * 通过id获取信息
      *
      * @param id
      * @return
