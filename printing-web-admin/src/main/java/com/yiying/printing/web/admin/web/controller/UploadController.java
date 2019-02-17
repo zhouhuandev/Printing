@@ -1,6 +1,7 @@
 package com.yiying.printing.web.admin.web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,16 +24,41 @@ import java.util.*;
 @RequestMapping(value = "upload")
 public class UploadController {
 
-    public static final String UPLOAD_PATH = "/static/upload/";
+    public static final String UPLOAD_PATH_IMG = "/static/upload/";
+    public static final String UPLOAD_PATH_FILE = "/static/upload/file/";
 
     @ResponseBody
-    @RequestMapping(value = "uploadImg", method = RequestMethod.POST)
-    public Map<String, Object> upload(MultipartFile dropzFile, MultipartFile[] editorFiles, HttpServletRequest request) {
+    @RequestMapping(value = "upload", method = RequestMethod.POST)
+    public Map<String, Object> upload(MultipartFile dropzFile, MultipartFile[] editorFiles, MultipartFile[] uploadfiles, HttpServletRequest request, Model model) {
         Map<String, Object> map = new HashMap<>();
 
+        //测试 request 都接到什么参数
+//        Enumeration enu=request.getParameterNames();
+//        while(enu.hasMoreElements()){
+//            String paraName=(String)enu.nextElement();
+//            System.out.println(paraName+": "+request.getParameter(paraName));
+//        }
+
+        //fileInput 上传
+        if (uploadfiles != null) {
+            //url 地址名
+            List<String> fileUrlNames = new ArrayList<>();
+            //原文件名
+            List<String> fileNames = new ArrayList<>();
+            for (MultipartFile uploadfile : uploadfiles) {
+                try {
+                    fileNames.add(uploadfile.getOriginalFilename());
+                    fileUrlNames.add(writeFile(uploadfile, request, UPLOAD_PATH_FILE));
+                } catch (Exception e) {
+                    map.put("error", "上传异常，请刷新以后重新上传！");
+                }
+            }
+            map.put("fileNames", fileNames);
+            map.put("fileUrlNames", fileUrlNames);
+        }
         //Dropzone上传
         if (dropzFile != null) {
-            map.put("fileName", writeFile(dropzFile, request));
+            map.put("fileName", writeFile(dropzFile, request, UPLOAD_PATH_IMG));
         }
         //wangEditor上传
         if (editorFiles != null && editorFiles.length > 0) {
@@ -40,7 +66,7 @@ public class UploadController {
 
             for (MultipartFile editorFile :
                     editorFiles) {
-                fileNames.add(writeFile(editorFile, request));
+                fileNames.add(writeFile(editorFile, request, UPLOAD_PATH_IMG));
             }
             // errno 即错误代码，0 表示没有错误。
             //       如果有错误，errno != 0，可通过下文中的监听函数 fail 拿到该错误码进行自定义处理
@@ -58,13 +84,13 @@ public class UploadController {
      * @param request
      * @return
      */
-    private String writeFile(MultipartFile multipartFile, HttpServletRequest request) {
+    private String writeFile(MultipartFile multipartFile, HttpServletRequest request, String upload_path) {
         //获取文件名后缀
         String fileName = multipartFile.getOriginalFilename();
         String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
 
         //文件存放路径
-        String filePath = request.getSession().getServletContext().getRealPath(UPLOAD_PATH);
+        String filePath = request.getSession().getServletContext().getRealPath(upload_path);
 
         //判断路径是否存在，不存在则创建文件夹
         File file = new File(filePath);
@@ -88,7 +114,7 @@ public class UploadController {
         //服务器地址
         String serverPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 
-        return serverPath + UPLOAD_PATH + file.getName();
+        return serverPath + upload_path + file.getName();
     }
 //    单个文件上传的方法
 //    public Map<String, Object> upload(MultipartFile dropzFile, MultipartFile wangFile, HttpServletRequest request) {
