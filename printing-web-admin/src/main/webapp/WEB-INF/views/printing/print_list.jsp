@@ -45,28 +45,28 @@
                             <div class="row form-horizontal">
                                 <div class="col-xs-12 col-sm-3">
                                     <div class="form-group">
-                                        <label for="username" class="col-sm-4 control-label">用户名</label>
+                                        <label for="orderId" class="col-sm-4 control-label">订单编号</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="username" name="username" class="form-control"
-                                                   placeholder="请输入用户名">
+                                            <input type="text" id="orderId" name="orderId" class="form-control"
+                                                   placeholder="请输入订单编号">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-3">
                                     <div class="form-group">
-                                        <label for="email" class="col-sm-4 control-label">邮箱</label>
+                                        <label for="userName" class="col-sm-4 control-label">客户姓名</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="email" name="email" class="form-control"
-                                                   placeholder="请输入邮箱">
+                                            <input type="text" id="userName" name="userName" class="form-control"
+                                                   placeholder="请输入客户姓名">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-3">
                                     <div class="form-group">
-                                        <label for="phone" class="col-sm-4 control-label">手机号</label>
+                                        <label for="tel" class="col-sm-4 control-label">客户电话</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="phone" name="phone" class="form-control"
-                                                   placeholder="请输入手机号">
+                                            <input type="text" id="tel" name="tel" class="form-control"
+                                                   placeholder="请输入客户电话">
                                         </div>
                                     </div>
                                 </div>
@@ -82,20 +82,16 @@
 
                     <div class="box box-info">
                         <div class="box-header">
-                            <h3 class="box-title">用户列表</h3>
+                            <h3 class="box-title">历史记录列表</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <a href="/user/form" type="button" class="btn btn-sm btn-default"><i
                                     class="fa fa-plus"></i>新增</a>&nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-sm btn-default"
-                                    onclick="App.deleteMulti('/user/delete')"><i
+                                    onclick="App.deleteMulti('/printing/delete')"><i
                                     class="fa fa-trash-o"></i>删除
                             </button>&nbsp;&nbsp;&nbsp;
-                            <a href="#" type="button" class="btn btn-sm btn-default"><i
-                                    class="glyphicon glyphicon-import"></i>导入</a>&nbsp;&nbsp;&nbsp;
-                            <a href="#" type="button" class="btn btn-sm btn-default"><i
-                                    class="glyphicon glyphicon-export"></i>导出</a>&nbsp;&nbsp;&nbsp;
                             <button href="#" type="button" class="btn btn-sm btn-primary"
                                     onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')">
                                 <i
@@ -107,11 +103,12 @@
                                 <thead>
                                 <tr>
                                     <th><input type="checkbox" class="minimal icheck_master"></th>
-                                    <th>ID</th>
-                                    <th>用户名</th>
-                                    <th>手机号</th>
-                                    <th>邮箱</th>
-                                    <th>更新时间</th>
+                                    <th>订单编号</th>
+                                    <th>客户姓名</th>
+                                    <th>客户电话</th>
+                                    <th>打印门店</th>
+                                    <th>取货时间</th>
+                                    <th>下单时间</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -141,28 +138,32 @@
     var _dataTable;
 
     $(function () {
-        var url = "/user/page";
+        var url = "/printing/page";
         var _columns = [
             {
                 "data": function (row, type, val, meta) {
                     return '<input id="' + row.id + '" type="checkbox" class="minimal">';
                 }
             },
-            {"data": "id"},
-            {"data": "username"},
-            {"data": "phone"},
-            {"data": "email"},
+            {"data": "orderId"},
+            {"data": "userName"},
+            {"data": "tel"},
+            {"data": "storeId"},
             {
                 "data": function (row, type, val, meta) {
-                    return DateTime.format(row.updated, "yyyy-MM-dd HH:mm:ss")
+                    return DateTime.format(row.pickTime, "yyyy-MM-dd HH:mm:ss")
                 }
             },
             {
                 "data": function (row, type, val, meta) {
-                    var detailUrl = "/user/detail?id=" + row.id;
-                    var deleteUrl = "/user/delete";
+                    return DateTime.format(row.created, "yyyy-MM-dd HH:mm:ss")
+                }
+            },
+            {
+                "data": function (row, type, val, meta) {
+                    var detailUrl = "/printing/detail?id=" + row.id;
+                    var deleteUrl = "/printing/delete";
                     return '<button type="button" class="btn btn-sm btn-default" onclick="App.initShowDetail(\'' + detailUrl + '\')"><i class="fa fa-search"></i>查看</button>&nbsp;&nbsp;&nbsp;' +
-                        '<a href="/user/form?id=' + row.id + '" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i>编辑</a>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" onclick="App.deleteSingle(\'' + deleteUrl + '\',\'' + row.id + '\')"><i class="fa fa-trash-o"></i>删除</button>';
                 }
             }
@@ -173,15 +174,15 @@
 
     // 高级查询搜索
     function search() {
-        var username = $("#username").val();
-        var email = $("#email").val();
-        var phone = $("#phone").val();
+        var orderId = $("#orderId").val();
+        var userName = $("#userName").val();
+        var tel = $("#tel").val();
 
         //数据封装成param对象
         var param = {
-            "username": username,
-            "email": email,
-            "phone": phone
+            "orderId": orderId,
+            "userName": userName,
+            "tel": tel
         };
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();//重新装载
