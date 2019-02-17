@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiying.printing.web.admin.dao.TbUserDao">
+    <sql id="tbOrderColumns">
+        a.id,
+        a.order_id AS orderId,
+        a.username AS userName,
+        a.tel,
+        a.url,
+        a.filename AS fileName,
+        a.store_id AS storeId,
+        a.istwo_face AS isTwoFace,
+        a.iscolor_printing AS isColorPrinting,
+        a.number_printing AS numberPrinting,
+        a.ispick_now AS isPickNow,
+        a.pick_time AS pickTime,
+        a.byuser AS byUser,
+        a.created,
+        a.updated,
+        a.isdelete AS isDelete
+    </sql>
+
+    <select id="selectAll" resultType="TbOrder">
+        SELECT
+        <include refid="tbOrderColumns"/>
+        FROM
+        tb_order AS a
+        WHERE a.isdelete = 'false'
+    </select>
+
+    <select id="getById" resultType="TbOrder" parameterType="long">
+        SELECT
+        <include refid="tbOrderColumns"/>
+        FROM
+        tb_order as a
+        WHERE
+        a.id = #{id} AND a.isdelete = 'false'
+    </select>
+
+    <insert id="insert">
+    INSERT INTO tb_order
+      (
+        order_id,
+        username,
+        tel,
+        url,
+        filename,
+        store_id,
+        istwo_face,
+        iscolor_printing,
+        number_printing,
+        ispick_now,
+        pick_time,
+        byuser,
+        created,
+        updated
+      )
+    VALUES
+      (
+        #{orderId},
+        #{userName},
+        #{tel},
+        #{url},
+        #{fileName},
+        #{storeId},
+        #{isTwoFace},
+        #{isColorPrinting},
+        #{numberPrinting},
+        #{isPickNow},
+        #{pickTime},
+        #{byUser},
+        #{created},
+        #{updated}
+      )
+     </insert>
+
+    <update id="update">
+        UPDATE
+        tb_order
+        SET
+        <if test="orderId != null and orderId != ''">
+            order_id= #{orderId},
+        </if>
+        <if test="userName != null and userName != ''">
+            username = #{userName},
+        </if>
+        <if test="tel != null and tel != ''">
+            tel = #{tel},
+        </if>
+        <if test="url != null and url != ''">
+            url = #{url},
+        </if>
+        <if test="fileName != null and fileName != ''">
+            filename = #{fileName},
+        </if>
+        <if test="storeId != null and storeId != ''">
+            store_id = #{storeId},
+        </if>
+        <if test="isTwoFace != null and isTwoFace != ''">
+            istwo_face = #{isTwoFace},
+        </if>
+        <if test="isColorPrinting != null and isColorPrinting != ''">
+            iscolor_printing = #{isColorPrinting},
+        </if>
+        <if test="numberPrinting != null and numberPrinting != ''">
+            number_printing = #{numberPrinting},
+        </if>
+        <if test="isPickNow != null and isPickNow != ''">
+            ispick_now = #{isPickNow},
+        </if>
+        <if test="pickTime != null and pickTime != ''">
+            pick_time = #{pickTime},
+        </if>
+        <if test="byUser != null and byUser != ''">
+            byuser = #{byUser},
+        </if>
+        updated = #{updated}
+        WHERE
+        id = #{id}
+    </update>
+
+
+    <update id="delete">
+        UPDATE tb_order
+        SET
+        isdelete=true
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteMulti">
+        UPDATE tb_order
+        SET
+        isdelete=true
+        WHERE id IN
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="page" resultType="TbOrder" parameterType="java.util.Map">
+        SELECT
+        <include refid="tbOrderColumns"/>
+        FROM
+        tb_order AS a
+        <where>
+            <if test="pageParams.orderId != null and pageParams.orderId != ''">
+                AND a.order_id LIKE CONCAT('%',#{pageParams.orderId},'%')
+            </if>
+            <if test="pageParams.userName != null and pageParams.userName != ''">
+                AND a.username LIKE CONCAT ('%',#{pageParams.userName},'%')
+            </if>
+            <if test="pageParams.tel != null and pageParams.tel != ''">
+                AND a.tel LIKE CONCAT ('%',#{pageParams.tel},'%')
+            </if>
+            AND a.isdelete = 'false'
+        </where>
+        LIMIT #{start},#{length}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM
+        tb_order AS a
+        <where>
+            <if test="orderId != null and orderId != ''">
+                AND a.order_id LIKE CONCAT('%',#{orderId},'%')
+            </if>
+            <if test="userName != null and userName != ''">
+                AND a.username LIKE CONCAT ('%',#{userName},'%')
+            </if>
+            <if test="tel != null and tel != ''">
+                AND a.tel LIKE CONCAT ('%',#{tel},'%')
+            </if>
+            AND
+            a.isdelete = 'false'
+        </where>
+    </select>
+</mapper>
