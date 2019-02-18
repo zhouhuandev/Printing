@@ -30,7 +30,6 @@ var App = function () {
     };
 
 
-
     /**
      * 数组转换成字符串，以 "," 间隔开
      * @param Array
@@ -45,7 +44,8 @@ var App = function () {
             } else {
                 str += ',' + Array[i];
             }
-        };
+        }
+        ;
         return str;
     }
 
@@ -352,7 +352,7 @@ var App = function () {
             maxFileCount: 1, //表示允许同时上传的最大文件个数
             maxFileSize: 1024 * 10,//单位为kb，如果为0表示不限制文件大小,此处限制 1024 * 10 kb = 10 Mb
             dropZoneEnabled: false, //是否显示拖拽区域
-            fileActionSettings:{ //设置预览图片的显示样式
+            fileActionSettings: { //设置预览图片的显示样式
                 showUpload: false,//关闭预览图的单独上传
                 showRemove: false,//关闭预览图的单独移除
             }
@@ -363,11 +363,11 @@ var App = function () {
             //赋值给前端的隐藏域
             $("#filename").val(ArrayToString(_fileNamesArray));
             $("#url").val(ArrayToString(_fileUrlNamesArray));
-        }).on("fileclear",function(event, data, msg){//点击浏览框右上角X 清空文件前响应事件
-            if(!confirm("确定删除文件？删除后不可恢复")){//这个必须使用这个简单的方法，为了暂停掉线程
+        }).on("fileclear", function (event, data, msg) {//点击浏览框右上角X 清空文件前响应事件
+            if (!confirm("确定删除文件？删除后不可恢复")) {//这个必须使用这个简单的方法，为了暂停掉线程
                 return false;
             }
-        }).on("filecleared",function(event, data, msg){//点击浏览框右上角X 清空文件后响应事件
+        }).on("filecleared", function (event, data, msg) {//点击浏览框右上角X 清空文件后响应事件
             //移除操作
             var fileUrlNames = ArrayToString(_fileUrlNamesArray);
             //移除文件
@@ -387,7 +387,7 @@ var App = function () {
             type: "POST",
             url: "/upload/remove",
             data: {
-                fileUrlNames : param
+                fileUrlNames: param
             },
             success: function (data) {
                 var msg = data.msg;
@@ -505,7 +505,7 @@ var App = function () {
          * @param param
 
          */
-        initRemoveFile:function(param){
+        initRemoveFile: function (param) {
             handlerRemoveFile(param);
         },
         /**

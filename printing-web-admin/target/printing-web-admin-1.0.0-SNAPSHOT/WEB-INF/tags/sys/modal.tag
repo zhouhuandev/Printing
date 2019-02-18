@@ -16,7 +16,8 @@
                 <p id="modal-message">${message}</p>
             </div>
             <div class="modal-footer">
-                <button id="btnModalCancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                <button id="btnModalCancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭
+                </button>
                 <button id="btnModalOk" type="button" class="btn btn-primary">确定</button>
             </div>
         </div>

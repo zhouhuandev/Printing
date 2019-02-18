@@ -81,13 +81,11 @@
                                         <div class="col-lg-4 col-md-8 col-sm-8 col-xs-8">
                                             <div class="file-loading">
                                                 <input id="uploadfile" name="uploadfiles" type="file" multiple>
-
+                                                <input id="filename" name="filename" type="hidden">
+                                                <input id="url" name="url" type="hidden">
                                             </div>
                                         </div>
                                     </div>
-                                    <input id="filename" name="filename" type="text">
-                                    <input id="url" name="url" type="text">
-
                                     <div class="form-group">
                                         <label for="store"
                                                class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
@@ -179,9 +177,9 @@
 <script src="/static/assets/plugins/easyui/openWindow.js"></script>
 <script>
    // bootstrap-fileinput 初始化
-    $(function () {
-        App.initFileInput('#uploadfile', '/upload/upload');
-    });
+   $(function () {
+       App.initFileInput('#uploadfile', '/upload/upload');
+   });
 
      // Bootstrap Switch 初始化
     $("[name='istwo-face']").bootstrapSwitch('state', false, true); //第二个参数默认false,即不双面打印
