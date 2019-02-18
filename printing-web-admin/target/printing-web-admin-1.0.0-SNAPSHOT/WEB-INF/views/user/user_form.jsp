@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sys" tagdir="/WEB-INF/tags/sys" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,6 +113,10 @@
     <jsp:include page="../../includes/copyright.jsp"/>
 </div>
 <jsp:include page="../../includes/footer.jsp"/>
+
+<!-- 加载自定义模态对话框 -->
+<sys:modal/>
+
 <!-- DropZone JS -->
 <script src="/static/assets/plugins/dropzone/min/dropzone.min.js"></script>
 <script>
@@ -125,30 +130,14 @@
             });
             this.on("removedfile", function (file) {
                 // 删除文件时触发的方法
-                remove("#imgurl");
+                var fileName = $("#imgurl").val();
+                //使用移除函数
+                App.initRemoveFile(fileName);
+                $("#imgurl").val("");
             });
         }
     });
 
-    /**
-     * 移除函数
-     * @param id 文本框的id
-     */
-    function remove(id) {
-        var fileName = $(id).val();
-        $.ajax({
-            type: "POST",
-            url: "/upload/remove",
-            data: {
-                fileName: fileName
-            },
-            success: function (data) {
-                var msg = data.msg;
-                alert(msg);
-                $(id).val("");
-            }
-        });
-    }
 </script>
 </body>
 </html>

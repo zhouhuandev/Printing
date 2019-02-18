@@ -29,6 +29,26 @@ var App = function () {
         dictRemoveFile: "移除"
     };
 
+
+
+    /**
+     * 数组转换成字符串，以 "," 间隔开
+     * @param Array
+     * @returns {string}
+     * @constructor
+     */
+    var ArrayToString = function (Array) {
+        var str = '';
+        for (var i = 0; i < Array.length; i++) {
+            if (str == '') {
+                str += Array[i];
+            } else {
+                str += ',' + Array[i];
+            }
+        };
+        return str;
+    }
+
     /**
      * 私有方法，初始化ICheck
      */
@@ -319,16 +339,63 @@ var App = function () {
      * @param uploadUrl 上传的路径
      * @param deleteUrl 删除的路径
      */
-    var handlerInitFileInput = function (id, uploadUrl, deleteUrl) {
+    var handlerInitFileInput = function (id, uploadUrl) {
+        // printing 打印表单上传文件变量
+        var _fileNamesArray = new Array();//原文件名数组
+        var _fileUrlNamesArray = new Array();//链接地址数组
+
         $(id).fileinput({
             theme: 'explorer-fas', //更改文件载上传框中的样式
             language: 'zh', //更改语言,需要引入语言包zh.js
-            uploadUrl: '/upload/upload', //上传文件路径
-            deleteUrl: deleteUrl, //删除文件的时候请求路径
-            uploadAsync: true, //是否异步上传
+            uploadUrl: uploadUrl, //上传文件路径
+            uploadAsync: false, //false 同步上传，后台用数组接收，true 异步上传，每次上传一个file,会调用多次接口
             allowedFileExtensions: ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'txt'], //接收的文件后缀，如['jpg', 'gif', 'png','docx', 'doc', 'xlsx','xls','pptx','ppt','txt'],不填将不限制上传文件后缀类型
-            maxFileCount: 5, //表示允许同时上传的最大文件个数
-            dropZoneEnabled: false //是否显示拖拽区域
+            maxFileCount: 3, //表示允许同时上传的最大文件个数
+            dropZoneEnabled: false, //是否显示拖拽区域
+            fileActionSettings:{ //设置预览图片的显示样式
+                showUpload: false,
+                showRemove: false,
+            }
+        }).on('filebatchuploadsuccess', function (event, data, id, index) {//批量上传成功文件后的回调函数
+            // console.log(data);//后台返回的数据信息在 data.response 里面
+            _fileNamesArray = data.response.fileNames;
+            _fileUrlNamesArray = data.response.fileUrlNames;
+            $("#filename").val(ArrayToString(_fileNamesArray));
+            $("#url").val(ArrayToString(_fileUrlNamesArray));
+        }).on("fileclear",function(event, data, msg){//点击浏览框右上角X 清空文件前响应事件
+            if(!confirm("确定删除文件？删除后不可恢复")){//这个必须使用这个简单的方法，为了暂停掉线程
+                return false;
+            }
+        }).on("filecleared",function(event, data, msg){//点击浏览框右上角X 清空文件后响应事件
+            //移除操作
+            var fileUrlNames = ArrayToString(_fileUrlNamesArray);
+            //移除文件
+            handlerRemoveFile(fileUrlNames);
+            $("#url").val("");
+            $("#filename").val("");
+        });
+    };
+    /**
+     * 移除函数
+     * @param param 移除的地址参数
+     */
+    var handlerRemoveFile = function (param) {
+        $.ajax({
+            type: "POST",
+            url: "/upload/remove",
+            data: {
+                fileUrlNames : param
+            },
+            success: function (data) {
+                var msg = data.msg;
+                $("#modal-message").html(msg != null ? msg : '移除未上传文件成功！');
+                $("#btnModalCancel").css("display", "none");
+                $("#modal-default").modal("show");
+                //模态对话框的确认按钮绑定删除事件，如果用户选择了数据项，则调用删除方法
+                $("#btnModalOk").bind("click", function () {
+                    $("#modal-default").modal("hide");
+                });
+            }
         });
     };
 
@@ -427,8 +494,16 @@ var App = function () {
          * @param uploadUrl
          * @param deleteUrl
          */
-        initFileInput: function (id, uploadUrl, deleteUrl) {
-            handlerInitFileInput(id, uploadUrl, deleteUrl);
+        initFileInput: function (id, uploadUrl) {
+            handlerInitFileInput(id, uploadUrl);
+        },
+        /**
+         * 移除函数
+         * @param param
+
+         */
+        initRemoveFile:function(param){
+            handlerRemoveFile(param);
         },
         /**
          * numberInput 计数器初始化
