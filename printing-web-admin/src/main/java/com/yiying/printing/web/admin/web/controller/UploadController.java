@@ -1,5 +1,6 @@
 package com.yiying.printing.web.admin.web.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ import java.util.*;
 @RequestMapping(value = "upload")
 public class UploadController {
 
-    public static final String UPLOAD_PATH_IMG = "/static/upload/";
+    public static final String UPLOAD_PATH_IMG = "/static/upload/img/";
     public static final String UPLOAD_PATH_FILE = "/static/upload/file/";
 
     @ResponseBody
@@ -116,61 +117,46 @@ public class UploadController {
 
         return serverPath + upload_path + file.getName();
     }
-//    单个文件上传的方法
-//    public Map<String, Object> upload(MultipartFile dropzFile, MultipartFile wangFile, HttpServletRequest request) {
-//        Map<String, Object> map = new HashMap<>();
-//
-//        //判断当前是Dropzone还是wangFile
-//        MultipartFile myFile = dropzFile == null ? wangFile : dropzFile;
-//        //获取源文件上传的文件名
-//        String fileName = myFile.getOriginalFilename();
-//        //获取文件名的后缀
-//        String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
-//        //设置文件上传路径
-//        String filePath = request.getSession().getServletContext().getRealPath(UPLOAD_PATH);
-//
-//
-//        //判断并创建上传用的文件夹
-//        File file = new File(filePath);
-//        if (!file.exists()) {
-//            file.mkdir();
-//        }
-//
-//        //重新设置文件名为UUID，以确保唯一性
-//        file = new File(filePath, UUID.randomUUID() + fileSuffix);
-//        try {
-//            //写入文件
-//            myFile.transferTo(file);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if (dropzFile != null) {
-//            // 返回 JSON 数据，这里只带入了文件名
-//            map.put("fileName", UPLOAD_PATH + file.getName());
-//            return map;
-//        } else {
-//
-//            /**
-//             * Scheme: 服务器提供的协议 http / htpps
-//             * ServerName : 服务器名称 localhost / ip / domain
-//             * ServerPort : 服务器端口号
-//             */
-//            //服务器地址
-//            String serverPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-//            // errno 即错误代码，0 表示没有错误。
-//            //       如果有错误，errno != 0，可通过下文中的监听函数 fail 拿到该错误码进行自定义处理
-//            map.put("errno", 0);
-//            // data 是一个数组，返回若干图片的线上地址
-//            map.put("data", new String[]{serverPath + UPLOAD_PATH + file.getName()});
-//            return map;
-//        }
-//    }
 
+
+    /**
+     * 移除文件信息
+     *
+     * @param fileUrlNames 文件的全路径 http:// .....
+     * @param request
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "remove", method = RequestMethod.POST)
-    public Map<String, Object> remove(String fileName, HttpServletRequest request) {
+    public Map<String, Object> remove(String fileUrlNames, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
+        List<String> msgList = new ArrayList<>();//存放消息的列表
+        String msg = "";//存放每次获取的消息
+
+        //判断参数进行分割 "," 逗号是分界线
+        if (StringUtils.isNotBlank(fileUrlNames)) {
+            List<String> fileNameLists = Arrays.asList(fileUrlNames.split(","));
+            for (String fileNameList : fileNameLists) {
+                msg = removeFile(fileNameList, request);
+                msgList.add(fileNameList + ":" + msg + "\n");
+            }
+            map.put("msg", msgList);
+        }
+
+
+        return map;
+    }
+
+
+    /**
+     * 移除指定地址的文件
+     *
+     * @param fileName
+     * @param request
+     * @return
+     */
+    private String removeFile(String fileName, HttpServletRequest request) {
+        String result = "";
 
         //服务器地址
         String serverPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
@@ -184,14 +170,15 @@ public class UploadController {
         //如果文件存在且是个文件的话，执行删除操作
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
-                map.put("msg", "文件移除成功！");
+                result =  "文件移除成功！";
             } else {
-                map.put("msg", "文件移除失败！");
+                result =  "文件移除失败！";
             }
         } else {
-            map.put("msg", "文件不存在！");
+            result =  "文件不存在！";
         }
-        return map;
+
+        return result;
     }
 
 }
