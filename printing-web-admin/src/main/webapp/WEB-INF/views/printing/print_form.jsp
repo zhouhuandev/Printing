@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sys" tagdir="/WEB-INF/tags/sys" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,27 +81,11 @@
                                         <div class="col-lg-4 col-md-8 col-sm-8 col-xs-8">
                                             <div class="file-loading">
                                                 <input id="uploadfile" name="uploadfiles" type="file" multiple>
+                                                <input id="filename" name="filename" type="hidden">
+                                                <input id="url" name="url" type="hidden">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label
-                                                class="control-label col-lg-5 col-md-2 col-sm-2 col-xs-4  text-right"
-                                                style="font-size: 18px;">上传信息：</label>
-                                        <div class="col-lg-4 col-md-8 col-sm-8 col-xs-8">
-                                            <table>
-                                                <tr>
-                                                    <td>fileNames:</td>
-                                                    <td>${fileNames}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>fileUrlNames:</td>
-                                                    <td>${fileUrlNames}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group">
                                         <label for="store"
                                                class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
@@ -173,6 +158,9 @@
     <jsp:include page="../../includes/copyright.jsp"/>
 </div>
 <jsp:include page="../../includes/footer.jsp"/>
+<!-- 加载自定义模态对话框 -->
+<sys:modal/>
+
 <!-- bootstrap-fileinput JS -->
 <script src="/static/assets/plugins/bootstrap-fileinput/js/fileinput.js"></script>
 <script src="/static/assets/plugins/bootstrap-fileinput/themes/explorer-fas/theme.js"></script>
@@ -189,27 +177,9 @@
 <script src="/static/assets/plugins/easyui/openWindow.js"></script>
 <script>
    // bootstrap-fileinput 初始化
-   //  App.initFileInput('#uploadfile', '#', '#');
    $(function () {
-       $("#uploadfile").fileinput({
-           theme: 'explorer-fas', //更改文件载上传框中的样式
-           language: 'zh', //更改语言,需要引入语言包zh.js
-           uploadUrl: '/upload/upload', //上传文件路径
-           deleteUrl: '#', //删除文件的时候请求路径
-           uploadAsync: true, //是否异步上传
-           allowedFileExtensions: ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'txt'], //接收的文件后缀，如['jpg', 'gif', 'png','docx', 'doc', 'xlsx','xls','pptx','ppt','txt'],不填将不限制上传文件后缀类型
-           maxFileCount: 3, //表示允许同时上传的最大文件个数
-           dropZoneEnabled: false //是否显示拖拽区域
-       }).on('fileuploaded', function (event, data, id, index) {
-           console.log(data);//后台返回的数据信息在 data.response 里面
-           // var fname = data.files[index].name,
-           //     out = '<li>' + 'Uploaded file # ' + (index + 1) + ' - '  +  fname + ' successfully.' + '</li>';
-           // alert(out);
-       });
-
-
+       App.initFileInput('#uploadfile', '/upload/upload');
    });
-
 
      // Bootstrap Switch 初始化
     $("[name='istwo-face']").bootstrapSwitch('state', false, true); //第二个参数默认false,即不双面打印
