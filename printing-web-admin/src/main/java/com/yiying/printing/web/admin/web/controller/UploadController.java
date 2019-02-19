@@ -157,16 +157,13 @@ public class UploadController {
      */
     private String removeFile(String fileName, HttpServletRequest request) {
         String result = "";
-
         //服务器地址
         String serverPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         //截掉服务器地址后的地址，以 /static/upload 开头
         String fileNameSuffix = fileName.substring(serverPath.length(), fileName.length());
         //获取当前项目路径
         String filePath = request.getSession().getServletContext().getRealPath("/");
-
         File file = new File(filePath + fileNameSuffix);
-
         //如果文件存在且是个文件的话，执行删除操作
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
@@ -177,8 +174,6 @@ public class UploadController {
         } else {
             result =  "文件不存在！";
         }
-
         return result;
     }
-
 }

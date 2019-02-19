@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>燚影无人打印后台管理系统 | 主页</title>
+    <title>燚影无人打印后台管理系统 | 发布任务订单</title>
     <jsp:include page="../../includes/header.jsp"/>
     <!-- bootstrap-fileinput CSS -->
     <link href="/static/assets/plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet"
