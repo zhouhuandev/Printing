@@ -25,8 +25,7 @@ public class TbOrder extends BaseEntity {
     private String url;
     //原文件名
     private String fileName;
-    //店铺 id
-    private Long storeId;
+
     //是否双面打印
     private Boolean isTwoFace;
     //是否彩印
@@ -41,6 +40,8 @@ public class TbOrder extends BaseEntity {
     private String byUser;
     //是否删除
     private Boolean isDelete;
+
+    private TbStore tbStore;
 
 
 }
