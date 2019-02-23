@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 打印控制器
@@ -64,6 +65,7 @@ public class PrintingController {
     public String list() {
         return "printing/print_list";
     }
+
     /**
      * 跳转打印表单页
      *
@@ -83,7 +85,12 @@ public class PrintingController {
      * @return
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public String save(TbOrder tbOrder, Model model, RedirectAttributes redirectAttributes) {
+    public String save(TbOrder tbOrder, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        //若是前台的 checkbox 传来的数据为 "on",故采用此种方式
+        tbOrder.setIsTwoFace(tbOrder.getIsTwoFace() == null ? false : tbOrder.getIsTwoFace());
+        tbOrder.setIsColorPrinting(tbOrder.getIsColorPrinting() == null ? false : tbOrder.getIsColorPrinting());
+        tbOrder.setIsPickNow(tbOrder.getIsPickNow() == null ? false : tbOrder.getIsPickNow());
+
         BaseResult baseResult = tbOrderService.save(tbOrder);
 
         //保存成功
@@ -95,7 +102,7 @@ public class PrintingController {
         //保存失败
         else {
             model.addAttribute("baseResult", baseResult);
-            return "printing/user_form";
+            return "printing/print_form";
         }
 
     }
