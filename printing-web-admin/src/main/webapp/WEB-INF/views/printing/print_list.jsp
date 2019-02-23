@@ -87,7 +87,7 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <a href="/printing/form" type="button" class="btn btn-sm btn-default"><i
-                                    class="fa fa-plus"></i>新增</a>&nbsp;&nbsp;&nbsp;
+                                    class="fa fa-plus"></i>发布新打印订单</a>&nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-sm btn-default"
                                     onclick="App.deleteMulti('/printing/delete')"><i
                                     class="fa fa-trash-o"></i>删除
