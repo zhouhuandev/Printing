@@ -82,7 +82,7 @@
         },
         previewFileIcon: '<i class="fa fa-file"></i>',
         browseIcon: '<i class="fa fa-folder-open"></i>',
-        removeIcon: '<i class="fa fa-trash-alt"></i>',
+        removeIcon: '<i class="fa fa-trash"></i>',
         cancelIcon: '<i class="fa fa-ban"></i>',
         uploadIcon: '<i class="fa fa-upload"></i>',
         msgValidationErrorIcon: '<i class="fa fa-exclamation-circle"></i> '
