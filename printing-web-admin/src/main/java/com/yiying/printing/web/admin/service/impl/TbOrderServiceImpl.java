@@ -50,18 +50,15 @@ public class TbOrderServiceImpl implements TbOrderService {
 
             //新增
             if (tbOrder.getId() == null) {
-
+                //如果是立取，则 isPickNow 为 true ，设置取货时间为下单时间
+                if (tbOrder.getIsPickNow()){
+                    tbOrder.setPickTime(new Date());
+                }
                 tbOrder.setCreated(new Date());
                 tbOrderDao.insert(tbOrder);
             }
-            //编辑
-            else {
 
-                tbOrder.setCreated(new Date());
-                update(tbOrder);
-            }
-
-            return BaseResult.success("保存信息成功！");
+            return BaseResult.success("发布任务订单成功！");
         }
     }
 
