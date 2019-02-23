@@ -74,16 +74,6 @@ public class PrintingController {
         return "printing/print_form";
     }
 
-    /**
-     * 打开 莫泰对话框 里面装载 store.jsp
-     *
-     * @return
-     */
-    @RequestMapping(value = "store", method = RequestMethod.GET)
-    public String store() {
-        return "printing/store";
-    }
-
 
     /**
      * 保存信息
