@@ -19,11 +19,11 @@ jQuery.fn.extend({
       wrapper.css({"position": "relative", "display": "inline-block", "vertical-align": "top", "height": 32, "width": opt.width, "border": "1px solid #ccc", "border-radius": 6, "box-sizing": "border-box", "overflow": "hidden"})
       console.log
       $(this[i]).append(wrapper);
-      var inputN = $('<input type="text" class="'+opt.inputClass+'"/>');
+      var inputN = $('<input id="numberPrinting" name="numberPrinting" type="text" class="'+opt.inputClass+'"/>');
       inputN.css({"height": 30, "width": "100%", "padding": "0 25px 0 12px", "font-size": "14px", "line-height": "30px", "background": "#fff", "box-shadow": "inset 0 1px 1px rgba(0,0,0,.075)", "box-sizing": "border-box", "border": "none"})
-      var addBtn = $('<span class="'+opt.addClass+'"></span>')
+      var addBtn = $('<span id="'+opt.addClass+'" class="'+opt.addClass+'"></span>')
       addBtn.css({"position": "absolute", 'right': 0, 'top': 0, 'width': 25, "height": 15, "border-left": "1px solid #ccc", "box-sizing": "border-box", "cursor": "pointer"})
-      var subtractBtn = $('<span class="'+opt.subtractClass+'"></span>')
+      var subtractBtn = $('<span id="'+opt.subtractClass+'" class="'+opt.subtractClass+'"></span>')
       subtractBtn.css({"position": "absolute", 'right': 0, 'bottom': 0, 'width': 25, "height": 15, "border-left": "1px solid #ccc", "box-sizing": "border-box", "cursor": "pointer"})
       wrapper.append(inputN).append(addBtn).append(subtractBtn);
       this._initNumEvent(inputN, addBtn, subtractBtn, opt)  

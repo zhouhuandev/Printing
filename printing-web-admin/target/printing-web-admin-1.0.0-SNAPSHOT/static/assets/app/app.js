@@ -55,19 +55,19 @@ var App = function () {
      * 私有方法，初始化ICheck
      */
     var handlerInitCheckbox = function () {
-            //iCheck for checkbox and radio inputs
-            //激活
-            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                checkboxClass: 'icheckbox_minimal-blue',
-                radioClass: 'iradio_minimal-blue'
-            });
+        //iCheck for checkbox and radio inputs
+        //激活
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        });
 
-            //获取控制端Checkbox
-            _masterCheckbox = $('input[type="checkbox"].minimal.icheck_master');
+        //获取控制端Checkbox
+        _masterCheckbox = $('input[type="checkbox"].minimal.icheck_master');
 
-            //获取全部Checkbox集合
-            _checkbox = $('input[type="checkbox"].minimal');
-        };
+        //获取全部Checkbox集合
+        _checkbox = $('input[type="checkbox"].minimal');
+    };
 
     /**
      * 全选功能
@@ -127,9 +127,7 @@ var App = function () {
         //判断用户是否选择了数据项
         if (_idArray.length === 0) {
             $("#modal-message").html("您还未选择任何数据项，请至少选择一项数据！");
-        }
-
-        else {
+        } else {
             $("#modal-message").html("您确定要删除数据项吗！" + _idArray.toString());
         }
         //点击删除按钮时弹出模态框
@@ -411,8 +409,34 @@ var App = function () {
     };
 
     /**
-     * 店铺的模态对话框
-     * 基于 EasyUI
+     * 初始化 Bootstrap Switch 插件
+     */
+    var handlerInitBootstrapSwitch = function () {
+        $("#isTwoFace").bootstrapSwitch('state', false, true).on('switchChange.bootstrapSwitch', function(event, state) {
+            console.log(state);
+            $("#isTwoFace").attr("checked", state);
+        }); //第二个参数默认false,即不双面打印
+        $("#isColorPrinting").bootstrapSwitch('state', false, true).on('switchChange.bootstrapSwitch', function(event, state) {
+            console.log(state);
+            $("#isColorPrinting").attr("checked", state);
+        }); //第二个参数默认false,即不彩印
+        $("#isPickNow").bootstrapSwitch('state', false, true).on('switchChange.bootstrapSwitch', function(event, state) {
+            // 若不立即取货,则显示取货时间,否则显示立即取货
+            // 若不立即取货,则 name 名字赋值，否则为空
+            $("#isPickNow").attr("checked", state);
+            if (state == true) {
+                $(".pick-time").css("display", "none");
+                $("#pickTime").attr("name","");
+            }
+            if (state == false) {
+                $(".pick-time").css("display", "");
+                $("#pickTime").attr("name","pickTime");
+            }
+        }); //第二个参数默认true,即不立取
+    };
+
+    /**
+     * 基于 EasyUI模态对话框
      */
     var handlerModalDialogStore = function () {
         dialog = modalDialog({
@@ -432,7 +456,7 @@ var App = function () {
                     $("#store").val(relust[1]);
                     dialog.dialog('destroy');
                 }
-            },{
+            }, {
                 text: 'Close',
                 iconCls: 'icon-cancel',
                 handler: function () {
@@ -462,15 +486,11 @@ var App = function () {
         //判断用户是否选择了数据项
         if (_idArray.length === 0) {
             alert("您还未选择任何数据项，请至少选择一项数据！")
-        }
-
-        else if (_idArray.length > 1) {
+        } else if (_idArray.length > 1) {
             alert("请至多选择一项数据！")
-        }
-
-        else {
-            var storeName = $('#'+_idArray.toString()).val();
-            var result = _idArray.toString() +','+ storeName;
+        } else {
+            var storeName = $('#' + _idArray.toString()).val();
+            var result = _idArray.toString() + ',' + storeName;
             return result;
         }
     };
@@ -486,6 +506,22 @@ var App = function () {
             negative: false, //允许输入负数
             //faq：positive，negative不能同时false，同时false按同时为true处理
         });
+
+        //加入失去焦点事件
+        $("#numberPrinting").blur(function () {
+            num_focus();
+        });
+        //这个地方只是无效，是个bug，按钮最低端为 0 时没有监测
+        $(".num-input-wrap").blur(function () {
+            num_focus();
+        });
+        function num_focus() {
+            var num = $("#numberPrinting").val();
+            if (num <= 0) {
+                alert("当前数值不能小于或者等于0!");
+                $("#numberPrinting").val("1");
+            }
+        }
     }
 
     /**
@@ -526,7 +562,7 @@ var App = function () {
         deleteMulti: function (url) {
             handlerDeleteMulti(url);
         },
-        
+
         /**
          * 初始化 DataTables
          * @param url
@@ -582,27 +618,35 @@ var App = function () {
             handlerRemoveFile(param);
         },
         /**
+         * 初始化 BootstrapSwitch 插件
+         */
+        initBootstrapSwitch: function () {
+            handlerInitBootstrapSwitch();
+        },
+        /**
          * numberInput 计数器初始化
          */
-        initNumberInput:function () {
+        initNumberInput: function () {
             handlerInitNumberInput();
         },
         /**
          * DateTimePicker 时间初始化
          */
-        initDateTimePicker:function () {
+        initDateTimePicker: function () {
             handlerInitDateTimePicker();
         },
         /**
-         * 初始化 店铺的模态对话框
+         * 基于 EasyUI模态对话框
+         * @param title 标题
+         * @param url 链接
          */
-        initModalDialogStore:function () {
+        initModalDialogStore: function () {
             handlerModalDialogStore();
         },
         /**
          * 商店选择框
          */
-        initIsChiose:function () {
+        initIsChiose: function () {
             return handlerIsChoiceStroe();
         }
     }
