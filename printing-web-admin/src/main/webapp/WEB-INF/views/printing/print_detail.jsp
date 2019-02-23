@@ -24,11 +24,11 @@
         </tr>
         <tr>
             <td>文件名：</td>
-            <td>${tbOrder.fileName}</td>
+            <td><a href="${tbOrder.url}">${tbOrder.fileName}</a></td>
         </tr>
         <tr>
             <td>门店：</td>
-            <td>${tbOrder.storeId}</td>
+            <td>${tbOrder.tbStore.name}</td>
         </tr>
         <tr>
             <td>是否双面打印：</td>
