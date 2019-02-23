@@ -17,7 +17,13 @@
         a.byuser AS byUser,
         a.created,
         a.updated,
-        a.isdelete AS isDelete
+        a.isdelete AS isDelete,
+        b.id AS "tbStore.id",
+        b.name AS "tbStore.name"
+    </sql>
+
+    <sql id="tbStoreJoins">
+        LEFT JOIN tb_store AS b ON a.store_id = b.id
     </sql>
 
     <select id="selectAll" resultType="TbOrder">
@@ -25,6 +31,7 @@
         <include refid="tbOrderColumns"/>
         FROM
         tb_order AS a
+        <include refid="tbStoreJoins"/>
         WHERE a.isdelete = 'false'
     </select>
 
@@ -33,6 +40,7 @@
         <include refid="tbOrderColumns"/>
         FROM
         tb_order as a
+        <include refid="tbStoreJoins"/>
         WHERE
         a.id = #{id} AND a.isdelete = 'false'
     </select>
@@ -57,12 +65,12 @@
       )
     VALUES
       (
-        #{orderId},
+        get_trans_num(),
         #{userName},
         #{tel},
         #{url},
         #{fileName},
-        #{storeId},
+        #{tbStore.id},
         #{isTwoFace},
         #{isColorPrinting},
         #{numberPrinting},
@@ -93,8 +101,8 @@
         <if test="fileName != null and fileName != ''">
             filename = #{fileName},
         </if>
-        <if test="storeId != null and storeId != ''">
-            store_id = #{storeId},
+        <if test="tbStore.id != null and tbStore.id != ''">
+            store_id = #{tbStore.id},
         </if>
         <if test="isTwoFace != null and isTwoFace != ''">
             istwo_face = #{isTwoFace},
@@ -142,6 +150,7 @@
         <include refid="tbOrderColumns"/>
         FROM
         tb_order AS a
+        <include refid="tbStoreJoins"/>
         <where>
             <if test="pageParams.orderId != null and pageParams.orderId != ''">
                 AND a.order_id LIKE CONCAT('%',#{pageParams.orderId},'%')
