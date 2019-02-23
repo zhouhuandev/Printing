@@ -29,6 +29,9 @@ var App = function () {
         dictRemoveFile: "移除"
     };
 
+    // 模态对话框初始化
+    var dialog;
+
 
     /**
      * 数组转换成字符串，以 "," 间隔开
@@ -366,7 +369,7 @@ var App = function () {
             _fileNamesArray = data.response.fileNames;//获取后台返回的原文件名，数组形式
             _fileUrlNamesArray = data.response.fileUrlNames;//获取后台返回的全路径，数组形式
             //赋值给前端的隐藏域
-            $("#filename").val(ArrayToString(_fileNamesArray));
+            $("#fileName").val(ArrayToString(_fileNamesArray));
             $("#url").val(ArrayToString(_fileUrlNamesArray));
         }).on("fileclear", function (event, data, msg) {//点击浏览框右上角X 清空文件前响应事件
             if (!confirm("确定删除文件？删除后不可恢复")) {//这个必须使用这个简单的方法，为了暂停掉线程
@@ -379,7 +382,7 @@ var App = function () {
             handlerRemoveFile(fileUrlNames);
             //前端的隐藏域清空
             $("#url").val("");
-            $("#filename").val("");
+            $("#fileName").val("");
         });
     };
 
@@ -403,6 +406,41 @@ var App = function () {
                 $("#btnModalOk").bind("click", function () {
                     $("#modal-default").modal("hide");
                 });
+            }
+        });
+    };
+
+    /**
+     * 店铺的模态对话框
+     * 基于 EasyUI
+     */
+    var handlerModalDialogStore = function () {
+        dialog = modalDialog({
+            title: '选择门店',
+            width: 800,
+            heigh: 300,
+            url: '/store/list',
+            buttons: [{
+                text: 'Ok',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    //调用所加载页面中的js方法,传递dialog对象本身
+                    //传递回来选择好的店铺 id + 店铺名
+                    var returnValue = dialog.find('iframe').get(0).contentWindow.isChoiceStroe(dialog);
+                    var relust = returnValue.split(',');
+                    $("#storeId").val(relust[0]);
+                    $("#store").val(relust[1]);
+                    dialog.dialog('destroy');
+                }
+            },{
+                text: 'Close',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    dialog.dialog('destroy');//关闭对话框
+                }
+            }],
+            onDestroy: function () {
+
             }
         });
     };
@@ -555,7 +593,12 @@ var App = function () {
         initDateTimePicker:function () {
             handlerInitDateTimePicker();
         },
-
+        /**
+         * 初始化 店铺的模态对话框
+         */
+        initModalDialogStore:function () {
+            handlerModalDialogStore();
+        },
         /**
          * 商店选择框
          */
