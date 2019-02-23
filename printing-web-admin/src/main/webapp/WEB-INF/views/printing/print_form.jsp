@@ -59,11 +59,11 @@
                                 <div class="row">
 
                                     <div class="form-group">
-                                        <label for="username"
+                                        <label for="userName"
                                                class="control-label col-lg-1 col-md-2 col-sm-2 col-xs-4 col-lg-offset-4 text-right"
                                                style="font-size: 18px;">姓名：</label>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
-                                            <input type="text" class="form-control" id="username" placeholder="Name"/>
+                                            <input type="text" class="form-control" id="userName" placeholder="Name"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -75,14 +75,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <input id="fileName" name="fileName" type="hidden">
+                                        <input id="url" name="url" type="hidden">
                                         <label for="uploadfile"
                                                class="control-label col-lg-5 col-md-2 col-sm-2 col-xs-4  text-right"
                                                style="font-size: 18px;">上传文件：</label>
                                         <div class="col-lg-4 col-md-8 col-sm-8 col-xs-8">
                                             <div class="file-loading">
                                                 <input id="uploadfile" name="uploadfiles" type="file" multiple>
-                                                <input id="filename" name="filename" type="hidden">
-                                                <input id="url" name="url" type="hidden">
+
                                             </div>
                                         </div>
                                     </div>
@@ -95,7 +96,7 @@
                                             <input id="storeId" type="hidden">
                                         </div>
                                         <a href="#" class="btn btn-default col-lg-1 col-xs-2 text-center"
-                                           onclick="store()">>>></a>
+                                           onclick="App.initModalDialogStore()">>>></a>
                                     </div>
                                     <div class="form-group">
                                         <label for="istwo-face" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
@@ -182,39 +183,6 @@
        App.initFileInput('#uploadfile', '/upload/upload');
    });
 
-   // 店铺模态对话框初始化
-   var dialog;
-
-   function store() {
-       dialog = modalDialog({
-           title: '选择门店',
-           width: 800,
-           heigh: 300,
-           url: '/printing/store',
-           buttons: [{
-               text: 'Ok',
-               iconCls: 'icon-ok',
-               handler: function () {
-                   //调用所加载页面中的js方法,传递dialog对象本身
-                   //传递回来选择好的店铺 id + 店铺名
-                   var returnValue = dialog.find('iframe').get(0).contentWindow.isChoiceStroe(dialog);
-                   var relust = returnValue.split(',');
-                   $("#storeId").val(relust[0]);
-                   $("#store").val(relust[1]);
-                   dialog.dialog('destroy');
-               }
-           },{
-               text: 'Close',
-               iconCls: 'icon-cancel',
-               handler: function () {
-                   dialog.dialog('destroy');//关闭对话框
-               }
-           }],
-           onDestroy: function () {
-
-           }
-       });
-   };
 
      // Bootstrap Switch 初始化
     $("[name='istwo-face']").bootstrapSwitch('state', false, true); //第二个参数默认false,即不双面打印
