@@ -44,16 +44,14 @@ var App = function () {
             } else {
                 str += ',' + Array[i];
             }
-        }
-        ;
+        };
         return str;
     }
 
     /**
      * 私有方法，初始化ICheck
      */
-    var
-        handlerInitCheckbox = function () {
+    var handlerInitCheckbox = function () {
             //iCheck for checkbox and radio inputs
             //激活
             $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
@@ -86,6 +84,13 @@ var App = function () {
         });
     };
 
+
+    /**
+     * 单个删除
+     * @param url
+     * @param id
+     * @param msg
+     */
     var handlerDeleteSingle = function (url, id, msg) {
         //可选参数
         if (!msg) msg = null;
@@ -403,6 +408,36 @@ var App = function () {
     };
 
     /**
+     * 模态对话框中选择店铺的信息
+     * @returns {string}
+     */
+    var handlerIsChoiceStroe = function () {
+        _idArray = new Array();
+
+        //将选中元素的id放入数组中
+        _checkbox.each(function () {
+            var _id = $(this).attr("id");
+            if (_id != null && _id != "undefine" && $(this).is(":checked")) {
+                _idArray.push(_id);
+            }
+        });
+        //判断用户是否选择了数据项
+        if (_idArray.length === 0) {
+            alert("您还未选择任何数据项，请至少选择一项数据！")
+        }
+
+        else if (_idArray.length > 1) {
+            alert("请至多选择一项数据！")
+        }
+
+        else {
+            var storeName = $('#'+_idArray.toString()).val();
+            var result = _idArray.toString() +','+ storeName;
+            return result;
+        }
+    };
+
+    /**
      * numInput 计数器初始化
      */
     var handlerInitNumberInput = function () {
@@ -519,6 +554,13 @@ var App = function () {
          */
         initDateTimePicker:function () {
             handlerInitDateTimePicker();
+        },
+
+        /**
+         * 商店选择框
+         */
+        initIsChiose:function () {
+            return handlerIsChoiceStroe();
         }
     }
 

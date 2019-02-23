@@ -92,6 +92,7 @@
                                                style="font-size: 18px;">选择门店：</label>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                                             <input type="text" class="form-control" id="store" placeholder="" readonly/>
+                                            <input id="storeId" type="hidden">
                                         </div>
                                         <a href="#" class="btn btn-default col-lg-1 col-xs-2 text-center"
                                            onclick="store()">>>></a>
@@ -181,6 +182,40 @@
        App.initFileInput('#uploadfile', '/upload/upload');
    });
 
+   // 店铺模态对话框初始化
+   var dialog;
+
+   function store() {
+       dialog = modalDialog({
+           title: '选择门店',
+           width: 800,
+           heigh: 300,
+           url: '/printing/store',
+           buttons: [{
+               text: 'Ok',
+               iconCls: 'icon-ok',
+               handler: function () {
+                   //调用所加载页面中的js方法,传递dialog对象本身
+                   //传递回来选择好的店铺 id + 店铺名
+                   var returnValue = dialog.find('iframe').get(0).contentWindow.isChoiceStroe(dialog);
+                   var relust = returnValue.split(',');
+                   $("#storeId").val(relust[0]);
+                   $("#store").val(relust[1]);
+                   dialog.dialog('destroy');
+               }
+           },{
+               text: 'Close',
+               iconCls: 'icon-cancel',
+               handler: function () {
+                   dialog.dialog('destroy');//关闭对话框
+               }
+           }],
+           onDestroy: function () {
+
+           }
+       });
+   };
+
      // Bootstrap Switch 初始化
     $("[name='istwo-face']").bootstrapSwitch('state', false, true); //第二个参数默认false,即不双面打印
     $("[name='iscolor-printing']").bootstrapSwitch('state', false, true); //第二个参数默认false,即不彩印
@@ -214,26 +249,7 @@
        }
    };
 
-   var dialog;
 
-   function store() {
-       dialog = modalDialog({
-           title: '选择门店',
-           width: 800,
-           heigh: 300,
-           url: '/printing/store',
-           buttons: [{
-               text: 'Close',
-               iconCls: 'icon-cancel',
-               handler: function () {
-                   dialog.dialog('destroy');//关闭对话框
-               }
-           }],
-           onDestroy: function () {
-
-           }
-       });
-   }
 </script>
 </body>
 </html>
