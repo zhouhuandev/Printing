@@ -43,7 +43,7 @@
 
                         <div class="box-body">
                             <div class="row form-horizontal">
-                                <div class="col-xs-12 col-sm-3">
+                                <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label for="orderId" class="col-sm-4 control-label">订单编号</label>
                                         <div class="col-sm-8">
@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-3">
+                                <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label for="userName" class="col-sm-4 control-label">客户姓名</label>
                                         <div class="col-sm-8">
@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-3">
+                                <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label for="tel" class="col-sm-4 control-label">客户电话</label>
                                         <div class="col-sm-8">
@@ -86,7 +86,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <a href="/user/form" type="button" class="btn btn-sm btn-default"><i
+                            <a href="/printing/form" type="button" class="btn btn-sm btn-default"><i
                                     class="fa fa-plus"></i>新增</a>&nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-sm btn-default"
                                     onclick="App.deleteMulti('/printing/delete')"><i
@@ -148,7 +148,7 @@
             {"data": "orderId"},
             {"data": "userName"},
             {"data": "tel"},
-            {"data": "storeId"},
+            {"data": "tbStore.name"},
             {
                 "data": function (row, type, val, meta) {
                     return DateTime.format(row.pickTime, "yyyy-MM-dd HH:mm:ss")
