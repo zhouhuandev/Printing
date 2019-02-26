@@ -30,7 +30,7 @@ public class UploadController {
 
     @ResponseBody
     @RequestMapping(value = "upload", method = RequestMethod.POST)
-    public Map<String, Object> upload(MultipartFile dropzFile, MultipartFile[] editorFiles, MultipartFile[] uploadfiles, HttpServletRequest request, Model model) {
+    public Map<String, Object> upload(MultipartFile dropzFile, MultipartFile[] editorFiles, MultipartFile[] file_data, HttpServletRequest request, Model model) {
         Map<String, Object> map = new HashMap<>();
 
         //测试 request 都接到什么参数
@@ -41,12 +41,12 @@ public class UploadController {
 //        }
 
         //fileInput 上传
-        if (uploadfiles != null) {
+        if (file_data != null) {
             //url 地址名
             List<String> fileUrlNames = new ArrayList<>();
             //原文件名
             List<String> fileNames = new ArrayList<>();
-            for (MultipartFile uploadfile : uploadfiles) {
+            for (MultipartFile uploadfile : file_data) {
                 try {
                     fileNames.add(uploadfile.getOriginalFilename());
                     fileUrlNames.add(writeFile(uploadfile, request, UPLOAD_PATH_FILE));
