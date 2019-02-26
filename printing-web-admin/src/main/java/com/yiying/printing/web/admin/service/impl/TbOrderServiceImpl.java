@@ -4,9 +4,9 @@ import com.yiying.printing.commons.dto.BaseResult;
 import com.yiying.printing.commons.dto.PageInfo;
 import com.yiying.printing.commons.validator.BeanValidator;
 import com.yiying.printing.domain.TbOrder;
-import com.yiying.printing.domain.TbUser;
 import com.yiying.printing.web.admin.dao.TbOrderDao;
 import com.yiying.printing.web.admin.service.TbOrderService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +38,19 @@ public class TbOrderServiceImpl implements TbOrderService {
     @Override
     @Transactional(readOnly = false)
     public BaseResult save(TbOrder tbOrder) {
+        //如果是立取，则 isPickNow 为 true ，设置取货时间为下单时间
+        //避免下单必须在下单之前的时间不为空验证信息，这里设置了半小时后的时间
+        if (tbOrder.getIsPickNow()) {
+            tbOrder.setPickTime(new Date(System.currentTimeMillis() + 30 * 60 * 1000));
+        }
+
         String validator = BeanValidator.validator(tbOrder);
+        BaseResult baseResult = checkStoreId(tbOrder);
+
+        //如果 用户未选择店铺信息，则验证不通过
+        if (baseResult.getStatus() == 500) {
+            validator = appendStr(validator, baseResult.getMessage());
+        }
         //验证不通过
         if (validator != null) {
             return BaseResult.fail(validator);
@@ -50,8 +62,8 @@ public class TbOrderServiceImpl implements TbOrderService {
 
             //新增
             if (tbOrder.getId() == null) {
-                //如果是立取，则 isPickNow 为 true ，设置取货时间为下单时间
-                if (tbOrder.getIsPickNow()){
+                //如果是立取，则 isPickNow 为 true ，重新设置取货时间为下单时间
+                if (tbOrder.getIsPickNow()) {
                     tbOrder.setPickTime(new Date());
                 }
                 tbOrder.setCreated(new Date());
@@ -158,6 +170,39 @@ public class TbOrderServiceImpl implements TbOrderService {
         pageInfo.setData(tbOrderDao.page(map));
 
         return pageInfo;
+    }
+
+    /**
+     * 验证是否选择了店铺信息
+     *
+     * @param tbOrder
+     * @return
+     */
+    private BaseResult checkStoreId(TbOrder tbOrder) {
+        Long storeId = tbOrder.getTbStore().getId();
+        if (storeId == null) {
+            return BaseResult.fail("注：店铺信息不能为空!");
+        } else {
+            return BaseResult.success();
+        }
+    }
+
+    /**
+     * 追加字符串信息
+     *
+     * @param fristStr 被追加字符串
+     * @param lastStr  追加字符串
+     * @return fSb 被追加后的字符串
+     */
+    private String appendStr(String fristStr, String lastStr) {
+        if (StringUtils.isNotBlank(fristStr)) {
+            fristStr += lastStr;
+            fristStr += "<br/>";
+        } else {
+            fristStr = lastStr;
+            fristStr += "<br/>";
+        }
+        return fristStr;
     }
 
 }

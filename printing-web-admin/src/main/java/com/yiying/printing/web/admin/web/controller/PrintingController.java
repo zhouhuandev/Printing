@@ -34,7 +34,7 @@ public class PrintingController {
 
 
     /**
-     * 结合user_form页面的表单里面使用的modelAttribute进行绑定数据
+     * 表单里面使用的modelAttribute进行绑定数据
      * 自动获取用户信息，绑定到当前页面
      * 总在@RequestMapping标签前执行
      *
@@ -85,7 +85,7 @@ public class PrintingController {
      * @return
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public String save(TbOrder tbOrder, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String save(TbOrder tbOrder, Model model, RedirectAttributes redirectAttributes) {
         //若是前台的 checkbox 传来的数据为 "on",故采用此种方式
         tbOrder.setIsTwoFace(tbOrder.getIsTwoFace() == null ? false : tbOrder.getIsTwoFace());
         tbOrder.setIsColorPrinting(tbOrder.getIsColorPrinting() == null ? false : tbOrder.getIsColorPrinting());
