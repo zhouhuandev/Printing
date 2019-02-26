@@ -18,7 +18,8 @@
         <table class="table table-hover">
             <thead>
             <tr class="info">
-                <th><input type="checkbox" class="minimal icheck_master"></th>
+                <%--<th><input type="checkbox" class="minimal icheck_master"></th>--%>
+                <th></th>
                 <th>序号</th>
                 <th>店名</th>
                 <th>地址</th>
