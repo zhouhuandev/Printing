@@ -12,12 +12,18 @@ public class RegexpUtils {
     /**
      * 验证手机号
      */
-    public static final String PHONE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+    public static final String PHONE = "^(13|15|18|17|12|11|14|16|19)\\d{9}$";
 
     /**
      * 验证邮箱地址
      */
     public static final String EMAIL = "\\w+(\\.\\w)*@\\w+(\\.\\w{2,3}){1,3}";
+
+    /**
+     * 验证姓名，可以是中文或英文
+     */
+    public static final String NAME = "(^[\\u2E80-\\u9FFF]+$)|(^\\w+[\\w\\s]+\\w+$)";
+
 
     /**
      * 验证手机号
@@ -37,5 +43,14 @@ public class RegexpUtils {
      */
     public static boolean checkEmail(String email) {
         return email.matches(EMAIL);
+    }
+
+    /**
+     * 验证姓名
+     * @param name
+     * @return
+     */
+    public static boolean checkName(String name){
+        return name.matches(NAME);
     }
 }
