@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sys" tagdir="/WEB-INF/tags/sys" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,9 +53,14 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">发布任务订单</h3>
                         </div>
+                        <div class="box-body">
+                            <p class="box-info" style="color: #f39c12">说明：1.如果您已经上传过文件，请不要二次上传文件，否则会进行文件的二次覆盖，您继续完整订单信息即可。</p>
+                            <p class="box-info" style="color: #f39c12">2.如果您已经上传过文件，由于您填入的信息格式不正确导致页面刷新，请不要自行刷新页面，同时也请不要二次上传文件，继续修改信息即可。</p>
+                        </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form id="inputForm" class="form-horizontal" action="/printing/save" method="post">
+                        <form:form id="inputForm" cssClass="form-horizontal" action="/printing/save" method="post"
+                                   modelAttribute="tbOrder">
                             <div class="box-body">
                                 <div class="row">
                                     <div class="form-group">
@@ -62,7 +68,7 @@
                                                class="control-label col-lg-1 col-md-2 col-sm-2 col-xs-4 col-lg-offset-4 text-right"
                                                style="font-size: 18px;">姓名：</label>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
-                                            <input type="text" class="form-control" id="userName" name="userName" placeholder="Name"/>
+                                            <form:input path="userName" cssClass="form-control" placeholder="Name" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -70,18 +76,18 @@
                                                class="control-label col-lg-1 col-md-2 col-sm-2 col-xs-4 col-lg-offset-4 text-right"
                                                style="font-size: 18px;">电话：</label>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
-                                            <input type="text" class="form-control" id="tel" name="tel" placeholder="Tel"/>
+                                            <form:input path="tel" cssClass="form-control" placeholder="Tel" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input id="fileName" name="fileName" type="hidden">
-                                        <input id="url" name="url" type="hidden">
+                                        <form:hidden path="fileName" />
+                                        <form:hidden path="url"/>
                                         <label for="uploadfile"
                                                class="control-label col-lg-5 col-md-2 col-sm-2 col-xs-4  text-right"
                                                style="font-size: 18px;">上传文件：</label>
                                         <div class="col-lg-4 col-md-8 col-sm-8 col-xs-8">
                                             <div class="file-loading">
-                                                <input id="uploadfile" name="uploadfiles" type="file" multiple>
+                                                <input id="uploadfile" type="file" multiple>
                                             </div>
                                         </div>
                                     </div>
@@ -112,15 +118,15 @@
                                                style="font-size: 18px;">是否彩印：</label>
                                         <div class="bootstrap-switch bootstrap-switch-mini"
                                              style="margin-left: 16px;margin-top: 5px;">
-                                            <input type="checkbox" id="isColorPrinting" name="isColorPrinting" data-on-text="Yes"
+                                            <input type="checkbox" id="isColorPrinting" name="isColorPrinting"
+                                                   data-on-text="Yes"
                                                    data-off-text="No"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="number"
-                                               class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
+                                        <label class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
                                                style="font-size: 18px;">份数：</label>
-                                        <div class="col-lg-1 col-xs-1" id="number" name="number"
+                                        <div class="col-lg-1 col-xs-1"
                                              style="margin-top: 3px;">
                                             <div class="numberInput"></div>
                                         </div>
@@ -142,15 +148,17 @@
                                         <div class="input-group date form_datetime col-lg-3 col-xs-8"
                                              data-date-format="yyyy/mm/dd hh:ii"
                                              data-link-field="time" style="padding-left: 15px;padding-top: 4px;">
-                                            <input id="pickTime" name="pickTime" class="form-control" size="16" type="text"
-                                                   readonly>
-                                            <span class="input-group-addon"><span
+                                            <%--此处标签不要加入 name ，详见 App.js 本章初始化解释--%>
+                                            <input id="pickTime" class="form-control pickTime" size="16"
+                                                   type="text"
+                                                   readonly="true">
+                                            <span class="input-group-addon pickTime"><span
                                                     class="glyphicon glyphicon-remove"></span></span>
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                            <span class="input-group-addon pickTime"><span class="glyphicon glyphicon-th"></span></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                       <input id="byUser" name="byUser" type="hidden" value="${user.username}">
+                                        <form:hidden path="byUser" value="${user.username}"/>
                                     </div>
 
 
@@ -164,7 +172,7 @@
                                 </div>
                             </div>
                             <!-- /.box-footer -->
-                        </form>
+                        </form:form>
                         <!-- /.box -->
                     </div>
                 </div>
@@ -197,15 +205,14 @@
     // bootstrap-fileinput 初始化
     $(function () {
         App.initFileInput('#uploadfile', '/upload/upload');
+        // Bootstrap Switch 初始化
+        App.initBootstrapSwitch();
+        // numInput 计数器初始化
+        App.initNumberInput();
+        // 时间初始化
+        App.initDateTimePicker();
     });
 
-    // Bootstrap Switch 初始化
-    App.initBootstrapSwitch();
-    // numInput 计数器初始化
-    App.initNumberInput();
-
-    // 时间初始化
-    App.initDateTimePicker();
 
 
 </script>

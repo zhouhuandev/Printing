@@ -413,11 +413,9 @@ var App = function () {
      */
     var handlerInitBootstrapSwitch = function () {
         $("#isTwoFace").bootstrapSwitch('state', false, true).on('switchChange.bootstrapSwitch', function(event, state) {
-            console.log(state);
             $("#isTwoFace").attr("checked", state);
         }); //第二个参数默认false,即不双面打印
         $("#isColorPrinting").bootstrapSwitch('state', false, true).on('switchChange.bootstrapSwitch', function(event, state) {
-            console.log(state);
             $("#isColorPrinting").attr("checked", state);
         }); //第二个参数默认false,即不彩印
         $("#isPickNow").bootstrapSwitch('state', false, true).on('switchChange.bootstrapSwitch', function(event, state) {
@@ -531,10 +529,19 @@ var App = function () {
         $('.form_datetime').datetimepicker({
             language: 'zh-CN', //中国大陆时间
             weekStart: 1,
-            todayBtn: 1,
+            todayBtn: 0,
             autoclose: 1,
             todayHighlight: 1
         });
+        /**
+         * 注，此处因为封装的 pickTime 属性为 Date 类型
+         * 若时间尚未点击的时候，值为空字符串，不满足 Date 属性的封装
+         * 故为空的时候，若是此标签有 name 的时候会发生 bug ，封装类型错误
+         * 所以增加了监听事件，若是触发，此处标签，则加入 name
+         */
+        $('.pickTime').click(function () {
+            $("#pickTime").attr("name","pickTime");
+        })
     }
 
     //开放方法接口
