@@ -24,7 +24,7 @@ public class TbOrder extends BaseEntity {
     //订单编号
     private String orderId;
     //取货姓名
-    @Pattern(regexp = RegexpUtils.NAME, message = "请输入中文名或英文名，不包含特殊字符！")
+    @Pattern(regexp = RegexpUtils.NAME, message = "请输入中文名或英文名，不包含数字和特殊字符！")
     private String userName;
     //取货电话
     @Pattern(regexp = RegexpUtils.PHONE, message = "手机号格式不正确！")
@@ -34,6 +34,8 @@ public class TbOrder extends BaseEntity {
     private String url;
     //原文件名
     private String fileName;
+    //文件大小,单位是 b
+    private Long fileSize;
     //是否双面打印
     private Boolean isTwoFace;
     //是否彩印
@@ -47,6 +49,9 @@ public class TbOrder extends BaseEntity {
     @Future(message = "时间必须在下单时间之前！")
     @NotNull(message = "取货时间不能为空！")
     private Date pickTime;
+
+    //状态信息，0为未打印，1是已经打印过，2是打印中
+    private Integer status;
     //后台打印用户
     private String byUser;
     //是否删除

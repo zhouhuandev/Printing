@@ -68,7 +68,7 @@
                                                class="control-label col-lg-1 col-md-2 col-sm-2 col-xs-4 col-lg-offset-4 text-right"
                                                style="font-size: 18px;">姓名：</label>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
-                                            <form:input path="userName" cssClass="form-control" placeholder="Name" />
+                                            <form:input path="userName" cssClass="form-control required username" placeholder="Name" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -76,12 +76,13 @@
                                                class="control-label col-lg-1 col-md-2 col-sm-2 col-xs-4 col-lg-offset-4 text-right"
                                                style="font-size: 18px;">电话：</label>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
-                                            <form:input path="tel" cssClass="form-control" placeholder="Tel" />
+                                            <form:input path="tel" cssClass="form-control required mobile" placeholder="Tel" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <form:hidden path="fileName" />
                                         <form:hidden path="url"/>
+                                        <form:hidden path="fileSize"/>
                                         <label for="uploadfile"
                                                class="control-label col-lg-5 col-md-2 col-sm-2 col-xs-4  text-right"
                                                style="font-size: 18px;">上传文件：</label>
@@ -96,7 +97,7 @@
                                                class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-4 col-lg-offset-3 text-right"
                                                style="font-size: 18px;">选择门店：</label>
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                            <input type="text" class="form-control" id="store" placeholder="" readonly/>
+                                            <input type="text" class="form-control required" id="store" placeholder="" readonly/>
                                             <input id="storeId" name="tbStore.id" type="hidden">
                                         </div>
                                         <a href="#" class="btn btn-default col-lg-1 col-xs-2 text-center"

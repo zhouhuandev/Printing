@@ -31,11 +31,24 @@ var Validata = function () {
      * 增加自定义验证规则
      */
     var handlerInitCustomValidate = function () {
+        /**
+         * 验证手机号
+         */
         $.validator.addMethod("mobile", function (value, element) {
             var length = value.length;
-            var mobile = /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+            var mobile = /^(13|15|18|17|14|16|19)\d{9}/;
             return this.optional(element) || (length == 11 && mobile.test(value));
-        }, "手机号码格式错误");
+        }, "手机号码格式错误!");
+
+        /**
+         * 验证姓名，可以是中文或英文
+         */
+        $.validator.addMethod("username", function (value, element) {
+            var name = /(^[\u2E80-\u9FFF]+$)|(^\w+[\w\s]+\w+$)/;
+            return this.optional(element) || (name.test(value));
+        }, "请输入中文名或英文名，不包含数字和特殊字符！");
+
+
     };
 
     /**

@@ -27,6 +27,10 @@
             <td><a href="${tbOrder.url}">${tbOrder.fileName}</a></td>
         </tr>
         <tr>
+            <td>文件大小：</td>
+            <td><fmt:formatNumber type="number" value="${tbOrder.fileSize/1024}" pattern="0.00" maxFractionDigits="2"/>&nbsp;&nbsp;kb</td>
+        </tr>
+        <tr>
             <td>门店：</td>
             <td>${tbOrder.tbStore.name}</td>
         </tr>
@@ -45,6 +49,10 @@
         <tr>
             <td>是否立取：</td>
             <td>${tbOrder.isPickNow == false ? '否' : '是'}</td>
+        </tr>
+        <tr>
+            <td>打印状态：</td>
+            <td>${tbOrder.status}   参考：0为未打印，1是已经打印过，2是打印中</td>
         </tr>
         <tr>
             <td>取货时间：</td>

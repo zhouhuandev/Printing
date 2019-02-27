@@ -363,12 +363,14 @@ var App = function () {
                 showRemove: false,//关闭预览图的单独移除
             }
         }).on('filebatchuploadsuccess', function (event, data, id, index) {//批量上传成功文件后的回调函数
-            // console.log(data);//后台返回的数据信息在 data.response 里面
+            console.log(data);//后台返回的数据信息在 data.response 里面
             _fileNamesArray = data.response.fileNames;//获取后台返回的原文件名，数组形式
             _fileUrlNamesArray = data.response.fileUrlNames;//获取后台返回的全路径，数组形式
+            var fileSize = data.files[0].size;
             //赋值给前端的隐藏域
             $("#fileName").val(ArrayToString(_fileNamesArray));
             $("#url").val(ArrayToString(_fileUrlNamesArray));
+            $("#fileSize").val(fileSize);
         }).on("fileclear", function (event, data, msg) {//点击浏览框右上角X 清空文件前响应事件
             if (!confirm("确定删除文件？删除后不可恢复")) {//这个必须使用这个简单的方法，为了暂停掉线程
                 return false;
@@ -381,6 +383,7 @@ var App = function () {
             //前端的隐藏域清空
             $("#url").val("");
             $("#fileName").val("");
+            $("#fileSize").val("");
         });
     };
 
