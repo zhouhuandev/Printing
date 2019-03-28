@@ -71,7 +71,7 @@
                                             <label for="username" class="col-sm-2 control-label">姓名</label>
 
                                             <div class="col-sm-10">
-                                                <form:input path="username" cssClass="form-control required"
+                                                <form:input path="username" cssClass="form-control required username"
                                                             placeholder="请输入姓名"/>
                                             </div>
                                         </div>

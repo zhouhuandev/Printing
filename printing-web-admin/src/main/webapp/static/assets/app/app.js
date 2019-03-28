@@ -354,7 +354,7 @@ var App = function () {
             language: 'zh', //更改语言,需要引入语言包zh.js
             uploadUrl: uploadUrl, //上传文件路径
             uploadAsync: false, //false 同步上传，后台用数组接收，true 异步上传，每次上传一个file,会调用多次接口
-            allowedFileExtensions: ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt', 'txt'], //接收的文件后缀，如['jpg', 'gif', 'png','docx', 'doc', 'xlsx','xls','pptx','ppt','txt'],不填将不限制上传文件后缀类型
+            allowedFileExtensions: ['docx', 'doc', 'xlsx', 'xls', 'pdf'], //接收的文件后缀，如['jpg', 'gif', 'png','docx', 'doc', 'xlsx','xls','pptx','ppt','txt'],不填将不限制上传文件后缀类型
             maxFileCount: 1, //表示允许同时上传的最大文件个数
             maxFileSize: 1024 * 10,//单位为kb，如果为0表示不限制文件大小,此处限制 1024 * 10 kb = 10 Mb
             dropZoneEnabled: false, //是否显示拖拽区域

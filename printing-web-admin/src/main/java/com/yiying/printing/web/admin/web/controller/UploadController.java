@@ -96,7 +96,7 @@ public class UploadController {
         //判断路径是否存在，不存在则创建文件夹
         File file = new File(filePath);
         if (!file.exists()) {
-            file.mkdir();
+            file.mkdirs();
         }
 
         //将文件写入指定目录
